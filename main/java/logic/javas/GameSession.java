@@ -1,19 +1,29 @@
 package main.java.logic.classes;
 
-import main.java.logic.RandomWordGetter;
-import main.java.logic.LetterState;
+import main.java.logic.classes.RandomWordGetter;
+import main.java.logic.classes.LetterState;
 import java.util.HashMap;
 
-class GameSession{
+
+public class GameSession{
 	
-	protected int attemptsRemainig;
-	private final String HIDDEN_WORD;
+	protected int attemptsRemaining;
+	protected final String HIDDEN_WORD;
 	
-	HashMap<String, LetterState> lettersStates;
+	public HashMap<Character, LetterState> lettersStates;
 	
-	GameSession(){
+	public GameSession(){
 		HIDDEN_WORD = RandomWordGetter.getRandomWord();
-		attemptsRemainig = 6;
-		lettersStates = new HashMap<String, LetterState>();
+		System.out.println("Загаданное слово: " + HIDDEN_WORD);
+		attemptsRemaining = 5;
+		lettersStates = new HashMap<Character, LetterState>();
+	}
+	
+	public int getAttemptsRemaining(){
+		return this.attemptsRemaining;
+	}
+	
+	public HashMap<Character, LetterState> getLetterStates(){
+		return this.lettersStates;
 	}
 }

@@ -5,7 +5,7 @@ import java.util.Random;
 import java.util.Set;
 import java.util.Iterator;
 
-class RandomWordGetter{
+public class RandomWordGetter{
 	public static String getRandomWord(){
 		Random rnd = new Random();
 		Set<String> words = WordsFileReader.getAllWords();
