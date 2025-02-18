@@ -4,10 +4,10 @@ import main.java.logic.classes.LetterState;
 import main.java.logic.classes.GameSession; 
 import main.java.logic.classes.LetterStateWrapper;
  
-public class GameLettersStatesUpdater{
+public class GuessLettersStateManager{
 	GameSession gameSession;
 	
-	public GameLettersStatesUpdater(GameSession gameSession){
+	public GuessLettersStateManager(GameSession gameSession){
 		this.gameSession = gameSession;
 	}
 	

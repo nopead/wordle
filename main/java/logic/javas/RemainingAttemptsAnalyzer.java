@@ -2,11 +2,11 @@ package main.java.logic.classes;
 
 import main.java.logic.classes.GameSession;
 
-public class NoMoreAttemptsChecker{
+public class RemainingAttemptsAnalyzer{
 	
 	GameSession gameSession;
 	
-	public NoMoreAttemptsChecker(GameSession gameSession){
+	public RemainingAttemptsAnalyzer(GameSession gameSession){
 		this.gameSession = gameSession;
 	}
 	

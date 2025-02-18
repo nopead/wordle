@@ -2,10 +2,10 @@ package main.java.logic.classes;
 
 import main.java.logic.classes.LetterStateWrapper;
 
-public class UserGuessedWordChecker{
+public class GuessedLettersAnalyzer{
 	GameSession gameSession;
 	
-	public UserGuessedWordChecker(GameSession gameSession){
+	public GuessedLettersAnalyzer(GameSession gameSession){
 		this.gameSession = gameSession;
 	}
 	

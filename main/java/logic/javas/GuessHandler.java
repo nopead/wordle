@@ -1,16 +1,16 @@
 package main.java.logic.classes;
 
-import main.java.logic.classes.GameLettersStatesUpdater;
+import main.java.logic.classes.GuessLettersStateManager;
 
-public class WordsComparer{
+public class GuessHandler{
 	
-	private GameLettersStatesUpdater letterStatesUpdater;
+	private GuessLettersStateManager letterStatesUpdater;
 	
-	public WordsComparer(GameLettersStatesUpdater letterStatesUpdater){
+	public GuessHandler(GuessLettersStateManager letterStatesUpdater){
 		this.letterStatesUpdater = letterStatesUpdater;
 	}
 	
-	public void compare(String hiddenWord, String userWord){
+	public void compareLetters(String hiddenWord, String userWord){
 		for (int i = 0; i < hiddenWord.length(); i++){
 			if (hiddenWord.indexOf(userWord.charAt(i)) == -1){
 				letterStatesUpdater.addNotExisting(userWord.charAt(i));
