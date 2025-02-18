@@ -21,7 +21,7 @@ class WordsType{
 }
 
 public class WordsFileReader{
-	private static final String filePath = "main/resources/words.json";
+	private static final String filePath = System.getProperty("user.dir") + "wordle/main/resources/words.json";
 	
 	public static String[] getAllWords(){
 		Gson gson = new Gson();
