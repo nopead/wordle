@@ -14,7 +14,6 @@ public class UserGuessedWordChecker{
 		for (LetterStateWrapper stateRecord: gameSession.lettersStates){
 			if (stateRecord.getState().equals(LetterState.RIGHT_PLACE)){
 				charsGuessedCount++;
-				System.out.println("charsGuessed " + charsGuessedCount);
 			}
 		}
 		return (charsGuessedCount == gameSession.HIDDEN_WORD.chars().count());

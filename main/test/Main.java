@@ -8,13 +8,14 @@ import main.java.logic.classes.UserWordOnExistChecker;
 import main.java.logic.classes.NoMoreAttemptsChecker;
 import main.java.logic.classes.GameLettersStatesUpdater;
 import main.java.logic.classes.UserGuessedWordChecker;
+import main.java.logic.classes.WordsComparer;
+import main.java.logic.classes.LetterStateWrapper;
+import main.java.logic.classes.InputValidator;
 
 import main.java.repository.classes.WordsFileReader;
 
-import java.util.Map;
-import java.util.Map.Entry;
+import java.util.ArrayList;
 import java.util.Set;
-import java.util.HashMap;
 
 
 class Main{
@@ -52,14 +53,22 @@ class Main{
 		System.out.println(goc.isGameOver());
 		
 		GameLettersStatesUpdater statesUpdater = new GameLettersStatesUpdater(gs);
-		statesUpdater.addRight('a', 0);
-		statesUpdater.addRight('b', 1);
-		statesUpdater.addRight('o', 2);
-		statesUpdater.addRight('u', 3);
-		statesUpdater.addNotExisting('d');
+		WordsComparer wc = new WordsComparer(statesUpdater);
+		
+		String input = "about";
+		if(InputValidator.isWord(input)){
+			wc.compare(gs.getHiddenWord(), input);
+		}
+		else{
+			System.out.println(input + " is not a word!");
+		}
+		ArrayList<LetterStateWrapper> letterStates = gs.getLetterStates();
+		
+		for (LetterStateWrapper state : letterStates){
+			System.out.println(state.toString());
+		}
 		
 		UserGuessedWordChecker ugw = new UserGuessedWordChecker(gs);
 		System.out.println("Is word guessed: " + ugw.isGuessed());
-		
 	}
 }

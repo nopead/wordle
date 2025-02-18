@@ -2,18 +2,18 @@ package main.java.logic.classes;
 
 import main.java.logic.classes.LetterState;
 
-class LetterStateWrapper{
+public class LetterStateWrapper{
 	private Character character;
 	private int index;
 	private LetterState state;
 	
-	LetterStateWrapper(Character character){
+	public LetterStateWrapper(Character character){
 		this.character = character;
 		this.index = -1;
-		this.state = LetterState.WRONG_PLACE;
+		this.state = LetterState.NOT_USED;
 	}
 	
-	LetterStateWrapper(Character character, int index, LetterState state){
+	public LetterStateWrapper(Character character, int index, LetterState state){
 		this.character = character;
 		this.index = index;
 		this.state = state;

@@ -4,7 +4,6 @@ import main.java.logic.classes.RandomWordGetter;
 import main.java.logic.classes.LetterStateWrapper;
 import java.util.ArrayList;
 
-
 public class GameSession{
 	
 	protected int attemptsRemaining;
@@ -25,5 +24,9 @@ public class GameSession{
 	
 	public ArrayList<LetterStateWrapper> getLetterStates(){
 		return this.lettersStates;
+	}
+	
+	public String getHiddenWord(){
+		return this.HIDDEN_WORD;
 	}
 }
