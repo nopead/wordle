@@ -52,11 +52,11 @@ class Main{
 		System.out.println(goc.isGameOver());
 		
 		GameLettersStatesUpdater statesUpdater = new GameLettersStatesUpdater(gs);
-		statesUpdater.update('a', LetterState.RIGHT_PLACE);
-		statesUpdater.update('b', LetterState.RIGHT_PLACE);
-		statesUpdater.update('o', LetterState.RIGHT_PLACE);
-		statesUpdater.update('u', LetterState.RIGHT_PLACE);
-		statesUpdater.update('d', LetterState.WRONG_PLACE);
+		statesUpdater.addRight('a', 0);
+		statesUpdater.addRight('b', 1);
+		statesUpdater.addRight('o', 2);
+		statesUpdater.addRight('u', 3);
+		statesUpdater.addNotExisting('d');
 		
 		UserGuessedWordChecker ugw = new UserGuessedWordChecker(gs);
 		System.out.println("Is word guessed: " + ugw.isGuessed());

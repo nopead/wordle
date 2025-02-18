@@ -10,7 +10,7 @@ public class RandomWordGetter{
 		Random rnd = new Random();
 		Set<String> words = WordsFileReader.getAllWords();
 		Iterator<String> iter = words.iterator();
-		int randomWordIndex = rnd.nextInt(words.size());
+		int randomWordIndex = rnd.nextInt(0, words.size() - 1);
 		for(int i = 0; i < randomWordIndex; i++){
 			iter.next();
 		}
