@@ -6,7 +6,7 @@ public class GuessWordAnalyzer{
 	
 	private GameSession gameSession;
 	
-	public GuessWordAnalyzer(GameSession gameSession){
+	protected GuessWordAnalyzer(GameSession gameSession){
 		this.gameSession = gameSession;
 	}
 		

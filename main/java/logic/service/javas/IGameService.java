@@ -1,15 +1,13 @@
 package main.java.logic.service.classes;
 
-interface IGameService{
+public interface IGameService{
 	
 	public void startGame();
 	
-	public ArrayList<LetterStateWrapper> getLettersStates();
-	
-	public boolean isWordGuessed();
+	public String getLettersStates();
 	
 	public boolean isAttemptsOver(); 
 	
-	public boolean isGuessWordIsAnswer();
+	public boolean isGuessWordIsAnswer(String guessWord);
 	
 }
