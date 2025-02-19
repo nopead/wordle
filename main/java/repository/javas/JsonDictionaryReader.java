@@ -1,5 +1,6 @@
 package main.java.repository.classes;
 
+import main.java.repository.classes.IDictionaryReadable;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileNotFoundException;
@@ -20,10 +21,10 @@ class WordsType{
 	}
 }
 
-public class WordsFileReader{
+public class JsonDictionaryReader implements IDictionaryReadable{
 	private static final String filePath = System.getProperty("user.dir") + "wordle/main/resources/words.json";
 	
-	public static String[] getAllWords(){
+	public String[] read(){
 		Gson gson = new Gson();
 		try (BufferedReader br = new BufferedReader(new FileReader(filePath))){
 			WordsType words = gson.fromJson(br, WordsType.class);
