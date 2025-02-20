@@ -27,6 +27,10 @@ public class Game{
 		return userWord.equals(WORD_TO_GUESS);
 	}
 	
+	public boolean isAttemptsOver(){
+		return (remainingAttemptsCount < 1);
+	}
+	
 	private boolean isLetterStated(char letter){
 		for (LetterStateWrapper letterState : lettersStates){
 			if (Character.compare(letterState.getLetter(), letter) == 0){
@@ -36,19 +40,13 @@ public class Game{
 		return false;
 	}
 	
-	private void addLetterWithRightPlaceState(char letter, int index){
-		lettersStates.add(new LetterStateWrapper(letter, index, LetterState.RIGHT_PLACE));
+	public void decreaseRemainingAttemptsCount(){
+		if (remainingAttemptsCount > 0){
+			remainingAttemptsCount--;
+		}
 	}
 	
-	private void addLetterWithWrongPlaceState(char letter, int index){
-		lettersStates.add(new LetterStateWrapper(letter, index, LetterState.WRONG_PLACE));
-	}
-	
-	private void addLetterWithNotUsedState(char letter){
-		lettersStates.add(new LetterStateWrapper(letter));
-	}
-	
-	protected void compareLetters(String userWord){
+	public void stateLetters(String userWord){
 		for (int i = 0; i < WORD_TO_GUESS.length(); i++){
 			char currentLetter = userWord.charAt(i);
 			if(!isLetterStated(currentLetter)){
@@ -65,14 +63,15 @@ public class Game{
 		}
 	}
 	
-	public boolean isAttemptsOver(){
-		return (remainingAttemptsCount < 1);
+	private void addLetterWithRightPlaceState(char letter, int index){
+		lettersStates.add(new LetterStateWrapper(letter, index, LetterState.RIGHT_PLACE));
 	}
-
-	public void decreaseRemainingAttemptsCount(){
-		if (remainingAttemptsCount > 0){
-			remainingAttemptsCount--;
-		}
+	
+	private void addLetterWithWrongPlaceState(char letter, int index){
+		lettersStates.add(new LetterStateWrapper(letter, index, LetterState.WRONG_PLACE));
 	}
-		
+	
+	private void addLetterWithNotUsedState(char letter){
+		lettersStates.add(new LetterStateWrapper(letter));
+	}
 }
