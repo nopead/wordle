@@ -1,7 +1,7 @@
 package main.java.view.classes;
 
 interface IReadable{
-	public String read();
+	public String readWord();
 	
-	public int read();
+	public int readDigit();
 }
