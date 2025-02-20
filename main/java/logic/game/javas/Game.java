@@ -2,24 +2,28 @@ package main.java.logic.game.classes;
 
 import main.java.logic.game.classes.LetterStateWrapper;
 import main.java.logic.game.classes.RandomWordGetter;
-import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class Game{
 	private int remainingAttemptsCount;
 	private final String WORD_TO_GUESS;
-	private ArrayList<LetterStateWrapper> lettersStates;
+	private LinkedList<LetterStateWrapper> lettersStates;
 
 	public Game(){
 		WORD_TO_GUESS = RandomWordGetter.getRandomWord();
 		remainingAttemptsCount = 6;
-		lettersStates = new ArrayList<LetterStateWrapper>();
+		lettersStates = new LinkedList<LetterStateWrapper>();
+	}
+	
+	public int getWordToGuessLength(){
+		return WORD_TO_GUESS.length();
 	}
 	
 	public int getRemainingAttemptsCount(){
 		return remainingAttemptsCount;
 	}
 	
-	public ArrayList<LetterStateWrapper> getLettersStates(){
+	public LinkedList<LetterStateWrapper> getLettersStates(){
 		return this.lettersStates;
 	}
 	
