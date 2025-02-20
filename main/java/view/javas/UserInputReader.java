@@ -9,6 +9,9 @@ class UserInputReader implements IReadable{
 	
 	Scanner sc;
 	
+	private static final String ONLY_DIGITS_REQUIRED = "You must use digits in menu input";
+	private static final String ONLY_LATTIN_LETTERS_REQUIRED = "You must use combination that consist only from lattin letters.";
+	
 	UserInputReader(){
 		sc = new Scanner(System.in);
 	}
@@ -20,20 +23,14 @@ class UserInputReader implements IReadable{
 				return input;
 			} catch (NumberFormatException e){
 				IPrintable printer = new InputErrorPrinter();
-				printer.print("You must use digits in menu input.");
+				printer.print(ONLY_DIGITS_REQUIRED);
 			}
 		}
 		return -1;
 	}
 	
 	public String readWord(){
-		String input = "";
-		try (Scanner sc = new Scanner(System.in)){
-			return input;
-		}
-		catch (Exception e) {
-			System.out.println(e);
-		}
+		String input = sc.nextLine();
 		return input;
 	} 	
 }
