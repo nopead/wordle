@@ -1,16 +1,18 @@
 package main.java.logic.service.classes;
 
+import java.util.HashMap;
+
 public interface IGameService{
 	
 	public int getRemainingAttemptsCount();
-	
-	public void startGame();
 	
 	public void decreaseRemainingAttemptsCount();
 	
 	public void stateLetters(String guessWord);
 	
-	public String getLettersStates();
+	public String getCurrentGuessedState();
+	
+	public String getLettersThatWordNotContains();
 	
 	public boolean isAttemptsOver(); 
 	
