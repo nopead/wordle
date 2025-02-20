@@ -26,7 +26,6 @@ public class JsonDictionaryReader implements IDictionaryReadable{
 	
 	public String[] read(){
 		Gson gson = new Gson();
-		System.out.println(filePath);
 		try (BufferedReader br = new BufferedReader(new FileReader(filePath))){
 			WordsType words = gson.fromJson(br, WordsType.class);
 			return words.getWords();
