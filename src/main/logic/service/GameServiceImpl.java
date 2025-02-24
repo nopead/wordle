@@ -7,9 +7,6 @@ import main.logic.game.DictionaryGetter;
 import main.logic.game.LetterState;
 import main.logic.game.LetterStateWrapper;
 import java.util.LinkedList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Arrays;
 
 public class GameServiceImpl implements IGameService{
@@ -21,11 +18,11 @@ public class GameServiceImpl implements IGameService{
 	}
 	
 	public boolean isAttemptsOver(){
-		return game.isAttemptsOver();
+		return game.getUsedAttemptsCount() >= game.getAttemptsCount();
 	}
 	
 	public boolean isGuessWordIsAnswer(String guessWord){
-		return game.compareWithSecret(guessWord);
+		return guessWord.equals(game.getHiddenWord());
 	}
 	
 	public boolean isUserInputIsWord(String input){
@@ -33,57 +30,61 @@ public class GameServiceImpl implements IGameService{
 		return WordInDictionaryChecker.isExists(dictionary, input);
 	}
 	
-	private HashMap<Character, Integer> getLettersWithState(LetterState state){
-		HashMap<Character, Integer> letters = new HashMap<Character, Integer>();
-		LinkedList<LetterStateWrapper> letterStates = game.getLettersStates();
-		for (LetterStateWrapper letterState : letterStates){
-			if (letterState.getState() == state){
-				letters.put(letterState.getLetter(), letterState.getIndex());
+	private void stateWrongPlacedLetter(char letter){
+		HashMap letterStates = game.getLettersStates();
+		if (!letterStates.containsKey(letter)){
+			letterStates.put(letter, LetterState.WRONG_PLACE);
+		}
+	}
+	
+	private void stateRightPlacedLetter(char letter){
+		HashMap letterStates = game.getLettersStates();
+		if(!letterStates.containsKey(letter)){
+			letterStates.put(letter, LetterState.RIGHT_PLACE);
+		}
+		else{
+			if(!letterStates.get(letter) == LetterState.RIGHT_PLACE){
+				letterStates.replace(letter, LetterState.RIGHT_PLACE);
 			}
 		}
-		return letters;
 	}
 	
-	private HashMap<Character, Integer> getLettersOnRigthPlaces(){
-		return getLettersWithState(LetterState.RIGHT_PLACE);
-	}
-	
-	private HashMap<Character, Integer> getLettersOnWrongPlaces(){
-		
-		return getLettersWithState(LetterState.WRONG_PLACE);
-	}
-	
-	public String getCurrentGuessedState(){
-		char[] letters = new char[game.getWordToGuessLength()];
-		Arrays.fill(letters, '*');
-		for(Map.Entry<Character, Integer> entry : getLettersOnWrongPlaces().entrySet()){
-			letters[entry.getValue()] = entry.getKey();
+	public void stateGuessedLetters(String guessState){
+		for (int i = 0; i < guessState.length(); i++){
+			char currentLetter = guessState.charAt(i);
+			if(!currentLetter.equals('*')){
+				if(currentLetter.isLowerCase()){
+					stateWrongPlacedLetter(currentLetter);
+				}
+				else{
+					stateRightPlacedLetter(currentLetter);
+				}
+			}
 		}
-		for (Map.Entry<Character, Integer> entry : getLettersOnRigthPlaces().entrySet()){
-			letters[entry.getValue()] = Character.toUpperCase(entry.getKey());
-		}
-		return new String(letters);
+	}
+	
+	public String getLettersOnRightPlaces(){
+		String rightPlacedLetters = "";
+		return rightPlacedLetters;
+	}
+	
+	public String getLettersOnWrongPlaces(){
+		String wrongPlacedLetters = "";
+		return wrongPlacedLetters;
 	}
 	
 	public String getLettersThatWordNotContains(){
-		HashMap<Character, Integer> letters = getLettersWithState(LetterState.NOT_USED);
 		String notUsedLetters = "";
-		for (Character letter : letters.keySet()){
-			notUsedLetters += letter + " ";
-		}
+		//переписать на hashmap
 		return notUsedLetters;
 	}
 	
 	public void decreaseRemainingAttemptsCount(){
-		game.decreaseRemainingAttemptsCount();
+		game.setUsedAttemptsCount(getUsedAttemptsCount() + 1);
 	}
 	
 	public int getRemainingAttemptsCount(){
-		return game.getRemainingAttemptsCount();
-	}
-	
-	public void stateLetters(String guessWord){
-		game.stateLetters(guessWord);
+		return game.getAttemptsCount() - game.getUsedAttemptsCount();
 	}
 	
 	public String getGuessWord(){

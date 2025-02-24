@@ -1,85 +1,56 @@
 package main.logic.game;
 
-import main.logic.game.LetterStateWrapper;
+import main.logic.game.LetterState;
 import main.logic.game.RandomWordGetter;
 import java.util.LinkedList;
 
 public class Game{
-	private int remainingAttemptsCount;
-	private final String GUESS_WORD;
-	private LinkedList<LetterStateWrapper> lettersStates;
-
+	
+	protected int attemptsCount;
+	protected int usedAttemptsCount;
+	private final String HIDDEN_WORD;
+	private LinkedList<String> guessWords;
+	private LinkedList<String> guessStates;
+	private HashMap<Character, LetterState> lettersStates;
+	
 	public Game(){
-		GUESS_WORD = RandomWordGetter.getRandomWord();
-		remainingAttemptsCount = 6;
-		lettersStates = new LinkedList<LetterStateWrapper>();
+		HIDDEN_WORD = RandomWordGetter.getRandomWord();
+		remainintAttemptsCount = 6;
+		usedAttemptsCount = 0;
+		guessWords = new LinkedList<String>();
+		guessStates = new LinkedList<String>();
+		lettersStates = new LinkedList<LetterStateWrapper>();		
+	}
+	
+	public void getAttemptsCount(){
+		return this.attemptsCount;
+	}
+	
+	public void getUsedAttemptsCount(){
+		return this.usedAttemptsCount;
 	}
 	
 	public int getWordToGuessLength(){
-		return GUESS_WORD.length();
+		return HIDDEN_WORD.length();
 	}
 	
-	public int getRemainingAttemptsCount(){
-		return remainingAttemptsCount;
+	public void setUsedAttemptsCount(int newValue){
+		usedAttemptsCount = newValue();
 	}
 	
-	public LinkedList<LetterStateWrapper> getLettersStates(){
+	public void setNewGuess(String guessWord){
+		guessWords.addLast(guessWord);
+	}
+	
+	public void setNewGuessState(String guessState){
+		guessStates.addLast(guessState);
+	}
+		
+	public HashMap<Character, LetterState> getLettersStates(){
 		return this.lettersStates;
 	}
 	
-	public boolean compareWithSecret(String userWord){
-		return userWord.equals(GUESS_WORD);
-	}
-	
-	public boolean isAttemptsOver(){
-		return (remainingAttemptsCount < 1);
-	}
-	
-	private boolean isLetterStated(char letter){
-		for (LetterStateWrapper letterState : lettersStates){
-			if (Character.compare(letterState.getLetter(), letter) == 0){
-				return true;
-			}
-		}
-		return false;
-	}
-	
-	public void decreaseRemainingAttemptsCount(){
-		if (remainingAttemptsCount > 0){
-			remainingAttemptsCount--;
-		}
-	}
-	
-	public void stateLetters(String userWord){
-		for (int i = 0; i < GUESS_WORD.length(); i++){
-			char currentLetter = userWord.charAt(i);
-			if(!isLetterStated(currentLetter)){
-				if (GUESS_WORD.indexOf(currentLetter) == -1){
-					addLetterWithNotUsedState(currentLetter);
-				}
-				else if ((Character.compare(GUESS_WORD.charAt(i), currentLetter)) == 0){
-					addLetterWithRightPlaceState(currentLetter, i);
-				}
-				else {
-					addLetterWithWrongPlaceState(currentLetter, i);
-				}
-			}
-		}
-	}
-	
-	private void addLetterWithRightPlaceState(char letter, int index){
-		lettersStates.add(new LetterStateWrapper(letter, index, LetterState.RIGHT_PLACE));
-	}
-	
-	private void addLetterWithWrongPlaceState(char letter, int index){
-		lettersStates.add(new LetterStateWrapper(letter, index, LetterState.WRONG_PLACE));
-	}
-	
-	private void addLetterWithNotUsedState(char letter){
-		lettersStates.add(new LetterStateWrapper(letter));
-	}
-	
-	public String getGuessWord(){
-		return this.GUESS_WORD;
+	public String getHiddenWord(){
+		return this.HIDDEN_WORD;
 	}
 }
