@@ -1,5 +1,7 @@
 package main.repository;
 
 public interface IDictionaryRepository{
-	public String[] getWords();
+	
+	public int getDictionaryLength(int wordsLength);
+	
 }

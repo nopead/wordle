@@ -5,8 +5,11 @@ import main.repository.IDictionaryReadable;
 import main.repository.JsonDictionaryReader;
 
 public class DictionaryRepositoryImpl implements IDictionaryRepository{
-	public String[] getWords(){
+	
+	public int getDictionaryLength(int wordsLength){
 		IDictionaryReadable dictionaryReader = new JsonDictionaryReader();
-		return dictionaryReader.read();
+		int dictionaryLength = dictionaryReader.getDictionaryLength(wordsLength);
+		return dictionaryLength;
 	}
+
 }
