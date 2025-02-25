@@ -19,4 +19,12 @@ public class WordleErrorPrinter{
 	public static void printMainMenuOutOfBoundsExceptionMessage(){
 		System.out.println(ErrorConstant.MAIN_MENU_OUT_OF_BOUNDS_EXCEPTION);
 	}
+	
+	public static void printGuessWordLengthShorterMessage(){
+		System.out.println(ErrorConstant.INPUT_TEXT_LENGTH_SHORTER);
+	}
+	
+	public static void printGuessWordLengthLongerMessage(){
+		System.out.println(ErrorConstant.INPUT_TEXT_LENGTH_LONGER);
+	}
 } 

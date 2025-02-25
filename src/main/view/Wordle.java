@@ -11,19 +11,21 @@ import java.util.regex.Matcher;
 
 public class Wordle{
 	
-	WordleMessagePrinter printer;
-	WordleErrorPrinter errorPrinter;
-	IReadable reader;
-	
-	public Wordle(){
-		printer = new WordleMessagePrinter();
-		errorPrinter = new WordleErrorPrinter();
-		reader = new UserInputReader();
-	}
+	private WordleMessagePrinter printer;
+	private WordleErrorPrinter errorPrinter;
+	private IReadable reader;
+	private IGameService game;
 	
 	public void run(){
+		initUtils();
 		printer.printGreeting();
 		loadMainMenu();
+	}
+	
+	private void initUtils(){
+		this.printer = new WordleMessagePrinter();
+		this.errorPrinter = new WordleErrorPrinter();
+		this.reader = new UserInputReader();
 	}
 	
 	void loadMainMenu(){
@@ -41,6 +43,7 @@ public class Wordle{
 				}
 				else if(responce == 2){
 					printer.printGameRules();
+					loadMainMenu();
 				}
 				else if(responce == 3){
 					System.exit(0);
@@ -56,64 +59,76 @@ public class Wordle{
 	}
 	
 	private void startGame(){
-		IGameService game = new GameServiceImpl();
-		readAttempts(game);	
+		game = new GameServiceImpl();
+		readAttempts();	
 	}
 	
-	private void readAttempts(IGameService game){
+	private void readAttempts(){
 		while (!game.isAttemptsOver()){
 			printer.printInputTextRequest();
 			String guessWord = reader.readWord().toLowerCase();
-			if (!isInputTextInCorrectFormat(guessWord)){
-				errorPrinter.printInputTextFormatErrorMessage();
-				continue;
-			}
-			else if(!game.isUserInputIsWord(guessWord)){
-				errorPrinter.printInputAsWordValidationFailMessage();
-				continue;
-			}
-			else {
+			if (isInputFormatCorrect(guessWord)){
 				if(game.isGuessWordIsAnswer(guessWord)){
+					game.recordAttempt(guessWord);
+					game.stateLetters();
 					gameOverByAnswered();
-					clearGame(game);
-					break;
+					return;
 				}
 				else{
-					game.stateLetters(guessWord);
-					game.decreaseRemainingAttemptsCount();
-					printCurrentProgress(game);
+					game.recordAttempt(guessWord);
+					game.stateLetters();
+					printCurrentProgress();
 				}
 			}
 		}
-		clearGame(game);
-		System.out.println("Secret word was: " + game.getGuessWord());
 		gameOverByAttemptsOver();
 	}
-	
-	private boolean isInputTextInCorrectFormat(String guessWord){
-		return Pattern.compile("[a-z]*").matcher(guessWord).matches();
+
+	private boolean isInputFormatCorrect(String guessWord){
+		if (!Pattern.compile("^[a-z]*").matcher(guessWord).matches()){
+			errorPrinter.printInputTextFormatErrorMessage();
+			return false;
+		}
+		else if (guessWord.length() < game.getHiddenWord().length()){
+			errorPrinter.printGuessWordLengthShorterMessage();
+			return false;
+		}
+		else if (guessWord.length() > game.getHiddenWord().length()){
+			errorPrinter.printGuessWordLengthLongerMessage();
+			return false;
+		}
+		else if (!game.isUserInputIsWord(guessWord)){
+			errorPrinter.printInputAsWordValidationFailMessage();
+			return false;
+		}
+		else{
+			return true;
+		}
 	}
 	
 	private void gameOverByAnswered(){
 		printer.printCongratulations();
+		clearGame();
 		loadMainMenu();
 	}
 	
 	private void gameOverByAttemptsOver(){
 		printer.printCompassion();
+		System.out.println("Secret word was: " + game.getHiddenWord());
+		clearGame();
 		loadMainMenu();
 	}
 	
-	private void printCurrentProgress(IGameService game){
-		String currentGuessState = game.getCurrentGuessedState();
-		String notUsedLetters = game.getLettersThatWordNotContains();
-		System.out.println("Your guess now: ");
-		System.out.println(currentGuessState);
-		System.out.println("Letters that guess word not contains:");
-		System.out.println(notUsedLetters);
+	private void printCurrentProgress(){
+		System.out.println("==Result of the attempt==");
+		System.out.println("guess result: " + game.getAttemptGuessResult());
+		System.out.println("Remaining attempts count: " + game.getRemainingAttemptsCount());
+		System.out.println("All right placed guessed letters: " + game.getAllRightPlacedLetters());
+		System.out.println("All wrong placed guessed letters: " + game.getAllWrongPlacedLetters());
+		System.out.println("All letter that not used in secret word: " + game.getAllNotUsedLetters());
 	}
 	
-	private void clearGame(IGameService game){
-		game = null;
+	private void clearGame(){
+		this.game = null;
 	}
 }

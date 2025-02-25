@@ -4,21 +4,25 @@ import java.util.HashMap;
 
 public interface IGameService{
 	
-	public int getRemainingAttemptsCount();
-	
-	public void decreaseRemainingAttemptsCount();
-	
-	public void stateLetters(String guessWord);
-	
-	public String getCurrentGuessedState();
-	
-	public String getLettersThatWordNotContains();
-	
 	public boolean isAttemptsOver(); 
 	
 	public boolean isGuessWordIsAnswer(String guessWord);
 	
 	public boolean isUserInputIsWord(String input);
 	
-	public String getGuessWord();
+	public String getAttemptGuessResult();
+	
+	public void stateLetters();
+
+	public int getRemainingAttemptsCount();
+	
+	public void recordAttempt(String guess);
+	
+	public String getHiddenWord();
+	
+	public String getAllRightPlacedLetters();
+	
+	public String getAllWrongPlacedLetters();
+	
+	public String getAllNotUsedLetters();
 }

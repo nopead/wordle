@@ -22,11 +22,12 @@ class WordsType{
 }
 
 public class JsonDictionaryReader implements IDictionaryReadable{
-	private static final String filePath = System.getProperty("user.dir") + "/src/resources/words.json";
+	private static final String filePath = System.getProperty("user.dir") + "/src/resources/";
+	private static final String fileExctention = ".json";
 	
 	public String[] read(){
 		Gson gson = new Gson();
-		try (BufferedReader br = new BufferedReader(new FileReader(filePath))){
+		try (BufferedReader br = new BufferedReader(new FileReader(filePath + "words" + fileExctention))){
 			WordsType words = gson.fromJson(br, WordsType.class);
 			return words.getWords();
 		}
