@@ -73,7 +73,7 @@ public class JsonDictionaryReader implements IDictionaryReadable{
 			
 	private JsonReader getDictionaryWordsArray(int dictionaryWordsLength) throws IOException{
 		try{
-			JsonReader jsonReader = new JsonReader(new BufferedReader(new FileReader(filePath + "words" + fileExctention)));
+			JsonReader jsonReader = new JsonReader(new BufferedReader(new FileReader(filePath + "dictionaries" + fileExctention)));
 			jsonReader.setStrictness(Strictness.LENIENT);
 			jsonReader.beginArray();
 			while(jsonReader.hasNext()){
