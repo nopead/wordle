@@ -1,26 +1,32 @@
 package main.logic.service;
 
+import main.repository.IDictionaryRepository;
+import main.repository.DictionaryRepositoryImpl;
 import main.logic.service.IGameService;
 import main.logic.game.Game;
 import main.logic.game.Attempt;
-import main.logic.game.WordInDictionaryChecker;
-import main.logic.game.DictionaryGetter;
 import java.util.LinkedList;
 import java.util.Arrays;
 import java.util.HashSet;
 
 public class GameServiceImpl implements IGameService{
 	
+	private final int HIDDEN_WORD_LENGTH = 5;
 	private Game game;
 	private HashSet<Character> rightPlacedLetters;
 	private HashSet<Character> wrongPlacedLetters;
 	private HashSet<Character> notUsedLetters;
 	
 	public GameServiceImpl(){
-		game = new Game("about");
+		initGame();
 		rightPlacedLetters = new HashSet<Character>();
 		wrongPlacedLetters = new HashSet<Character>();
 		notUsedLetters = new HashSet<Character>() ;
+	}
+	
+	private void initGame(){
+		IDictionaryRepository dictionaryRepository = new DictionaryRepositoryImpl();
+		game = new Game(dictionaryRepository.getRandomWord(HIDDEN_WORD_LENGTH));
 	}
 	
 	public boolean isAttemptsOver(){
@@ -32,8 +38,8 @@ public class GameServiceImpl implements IGameService{
 	}
 	
 	public boolean isUserInputIsWord(String input){
-		String[] dictionary = DictionaryGetter.getDictionary();
-		return WordInDictionaryChecker.isExists(dictionary, input);
+		IDictionaryRepository dictionaryRepository = new DictionaryRepositoryImpl();
+		return dictionaryRepository.isDictionaryContainsWord(HIDDEN_WORD_LENGTH, input);
 	}
 	
 	private String getGuessingResult(String guessWord){

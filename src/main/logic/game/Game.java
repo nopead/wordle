@@ -4,20 +4,13 @@ import main.logic.game.Attempt;
 import java.util.LinkedList;
 
 public class Game{
-	
-	protected int attemptsCount;
+	protected final int attemptsCount = 6;
 	private final String HIDDEN_WORD;
 	private LinkedList<Attempt> attempts;
 	
-	public Game(String wordToGuess){
-		attemptsCount = 6;	
+	public Game(String wordToGuess){	
 		attempts = new LinkedList<Attempt>();
 		HIDDEN_WORD = wordToGuess;
-	}
-
-	public Game(String wordToGuess, int attemptsCount){
-		this(wordToGuess);
-		this.attemptsCount = attemptsCount;
 	}
 	
 	public int getAttemptsCount(){
