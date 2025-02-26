@@ -5,7 +5,7 @@ import main.repository.IDictionaryReadable;
 import main.repository.JsonDictionaryReader;
 import java.util.Random;
 
-public class DictionaryRepositoryImpl implements IDictionaryRepository{
+public class DictionaryRepositoryImplJson implements IDictionaryRepository{
 	
 	public int getDictionaryLength(int wordsLength){
 		IDictionaryReadable dictionaryReader = new JsonDictionaryReader();

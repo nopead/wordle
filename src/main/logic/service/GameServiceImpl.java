@@ -1,7 +1,7 @@
 package main.logic.service;
 
 import main.repository.IDictionaryRepository;
-import main.repository.DictionaryRepositoryImpl;
+import main.repository.DictionaryRepositoryImplJson;
 import main.logic.service.IGameService;
 import main.logic.game.Game;
 import main.logic.game.Attempt;
@@ -25,7 +25,7 @@ public class GameServiceImpl implements IGameService{
 	}
 	
 	private void initGame(){
-		IDictionaryRepository dictionaryRepository = new DictionaryRepositoryImpl();
+		IDictionaryRepository dictionaryRepository = new DictionaryRepositoryImplJson();
 		game = new Game(dictionaryRepository.getRandomWord(HIDDEN_WORD_LENGTH));
 	}
 	
@@ -38,7 +38,7 @@ public class GameServiceImpl implements IGameService{
 	}
 	
 	public boolean isUserInputIsWord(String input){
-		IDictionaryRepository dictionaryRepository = new DictionaryRepositoryImpl();
+		IDictionaryRepository dictionaryRepository = new DictionaryRepositoryImplJson();
 		return dictionaryRepository.isDictionaryContainsWord(HIDDEN_WORD_LENGTH, input);
 	}
 	
