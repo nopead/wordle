@@ -30,7 +30,7 @@ public class GameServiceImpl implements IGameService{
 	}
 	
 	public boolean isAttemptsOver(){
-		return game.getUsedAttemptsCount() >= game.getAttemptsCount();
+		return game.attempts.size() >= game.getAttemptsCount();
 	}
 	
 	public boolean isGuessWordIsAnswer(String guessWord){
@@ -57,12 +57,12 @@ public class GameServiceImpl implements IGameService{
 	}
 	
 	public String getAttemptGuessResult(){
-		Attempt currentAttempt = game.getAttempts().peekLast();
+		Attempt currentAttempt = game.attempts.peekLast();
 		return getGuessingResult(currentAttempt.getGuess());
 	}
 	
 	public void stateLetters(){
-		String guessWord = game.getAttempts().peekLast().getGuess();
+		String guessWord = game.attempts.peekLast().getGuess();
 		for(int i = 0; i < guessWord.length(); i++){
 			if (Character.compare(guessWord.charAt(i), game.getHiddenWord().charAt(i)) == 0){
 				rightPlacedLetters.add(guessWord.charAt(i));
@@ -82,7 +82,7 @@ public class GameServiceImpl implements IGameService{
 	}
 	
 	public int getRemainingAttemptsCount(){
-		return game.getAttemptsCount() - game.getUsedAttemptsCount();
+		return game.getAttemptsCount() - game.attempts.size();
 	}
 	
 	public String getHiddenWord(){
@@ -90,7 +90,7 @@ public class GameServiceImpl implements IGameService{
 	}
 	
 	public void recordAttempt(String guess){
-		game.recordAttempt(new Attempt(guess));
+		game.attempts.addLast(new Attempt(guess));
 	}
 	
 	public String getAllRightPlacedLetters(){
