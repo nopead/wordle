@@ -1,1 +1,1 @@
-This is wordle java game.
+This is wordle java console game.
