@@ -1,4 +1,4 @@
-package main.repository;
+package main.java.repository;
 
 import main.repository.IDictionaryReadable;
 import java.io.BufferedReader;
@@ -38,9 +38,9 @@ public class JsonDictionaryReader implements IDictionaryReadable{
 		return "";
 	}
 	
-	public boolean isDictionaryContainsWord(int dictionaryWordsLength, String word){
+	public boolean isDictionaryContainsWord(String word){
 		int index = 0;
-		try (JsonReader dictionaryWordsReader = getDictionaryWordsArray(dictionaryWordsLength)){
+		try (JsonReader dictionaryWordsReader = getDictionaryWordsArray(word.length())){
 			dictionaryWordsReader.beginArray();
 			while(dictionaryWordsReader.hasNext()){
 				if(word.equals(dictionaryWordsReader.nextString())){

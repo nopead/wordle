@@ -1,4 +1,4 @@
-package main.repository;
+package main.java.repository;
 
 import main.repository.IDictionaryRepository;
 import main.repository.IDictionaryReadable;
@@ -13,9 +13,9 @@ public class DictionaryRepositoryImplJson implements IDictionaryRepository{
 		return dictionaryLength;
 	}
 	
-	public boolean isDictionaryContainsWord(int wordsLength, String word){
+	public boolean isDictionaryContainsWord(String word){
 		IDictionaryReadable dictionaryReader = new JsonDictionaryReader();
-		return dictionaryReader.isDictionaryContainsWord(wordsLength, word);
+		return dictionaryReader.isDictionaryContainsWord(word);
 	}
 	
 	public String getRandomWord(int wordLength){
