@@ -1,4 +1,4 @@
-package main.logic.game;
+package main.java.logic.game;
 
 public class Attempt{
 	private	String guess;

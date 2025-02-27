@@ -1,8 +1,8 @@
 package main.java.repository;
 
-import main.repository.IDictionaryRepository;
-import main.repository.IDictionaryReadable;
-import main.repository.JsonDictionaryReader;
+import main.java.repository.IDictionaryRepository;
+import main.java.repository.IDictionaryReadable;
+import main.java.repository.JsonDictionaryReader;
 import java.util.Random;
 
 public class DictionaryRepositoryImplJson implements IDictionaryRepository{

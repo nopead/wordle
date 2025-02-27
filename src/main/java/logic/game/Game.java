@@ -1,6 +1,6 @@
-package main.logic.game;
+package main.java.logic.game;
 
-import main.logic.game.Attempt;
+import main.java.logic.game.Attempt;
 import java.util.LinkedList;
 
 public class Game{

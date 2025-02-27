@@ -1,10 +1,10 @@
 package main.logic.service;
 
-import main.repository.IDictionaryRepository;
-import main.repository.DictionaryRepositoryImplJson;
-import main.logic.service.IGameService;
-import main.logic.game.Game;
-import main.logic.game.Attempt;
+import main.java.repository.IDictionaryRepository;
+import main.java.repository.DictionaryRepositoryImplJson;
+import main.java.logic.service.IGameService;
+import main.java.logic.game.Game;
+import main.java.logic.game.Attempt;
 import java.util.LinkedList;
 import java.util.Arrays;
 import java.util.HashSet;

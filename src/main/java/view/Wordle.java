@@ -1,13 +1,13 @@
 package main.java.view;
 
-import main.view.MessageConstants;
-import main.view.ErrorConstants;
-import main.view.Readable;
-import main.view.Printable;
-import main.view.WordleMessagePrinter;
-import main.view.UserInputReader;
-import main.logic.service.GameService;
-import main.logic.service.GameServiceImpl;
+import main.java.view.MessageConstants;
+import main.java.view.ErrorConstants;
+import main.java.view.Readable;
+import main.java.view.Printable;
+import main.java.view.WordleMessagePrinter;
+import main.java.view.UserInputReader;
+import main.java.logic.service.GameService;
+import main.java.logic.service.GameServiceImpl;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 

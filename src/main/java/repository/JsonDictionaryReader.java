@@ -1,6 +1,6 @@
 package main.java.repository;
 
-import main.repository.IDictionaryReadable;
+import main.java.repository.IDictionaryReadable;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.StringReader;
