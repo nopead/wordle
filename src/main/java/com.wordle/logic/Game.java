@@ -12,28 +12,19 @@ public class Game{
 	private final int attemptsCount;
 	private final String hiddenWord;
 	
-	private Set<Character> rightPlacedLetters;
-	private Set<Character> wrongPlacedLetters;
-	private Set<Character> notUsedLetters;
-	private List<Attempt> attempts;
+	private Set<Character> rightPlacedLetters = new HashSet<>();
+	private Set<Character> wrongPlacedLetters = new HashSet<>();
+	private Set<Character> notUsedLetters; = = new HashSet<>();
+	private List<Attempt> attempts = new ArrayList<>();
 	
 	public Game(String wordToGuess){
-		initCollection();
-		this.attemptsCount = 5;
+		this.attemptsCount = 6;
 		this.hiddenWord = wordToGuess;
 	}
 	
 	public Game(String wordToGuess, int attemptsCount){	
-		initCollection();
 		this.hiddenWord = wordToGuess;
 		this.attemptsCount = attemptsCount;
-	}
-	
-	private void initCollection(){
-		attempts = new ArrayList<>();
-		rightPlacedLetters = new HashSet<>();
-		wrongPlacedLetters = new HashSet<>();
-		notUsedLetters = new HashSet<>();
 	}
 	
 	public String getHiddenWord(){
