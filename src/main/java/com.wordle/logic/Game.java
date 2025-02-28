@@ -1,40 +1,40 @@
-package main.java.logic;
+package com.wordle.logic;
 
-import main.java.logic.Attempt;
+import com.wordle.logic.Attempt;
 import java.util.List;
 import java.util.Set;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 
 public class Game{
 	
-	private final int attemptsCount = 6;
+	private final int attemptsCount;
 	private final String hiddenWord;
 	
 	private Set<Character> rightPlacedLetters;
 	private Set<Character> wrongPlacedLetters;
 	private Set<Character> notUsedLetters;
-	
-	public List<Attempt> attempts;
+	private List<Attempt> attempts;
 	
 	public Game(String wordToGuess){
-		init();
+		initCollection();
+		this.attemptsCount = 5;
 		this.hiddenWord = wordToGuess;
 	}
 	
-	private void init(){
-		attempts = new LinkedList<>();
+	public Game(String wordToGuess, int attemptsCount){	
+		initCollection();
+		this.hiddenWord = wordToGuess;
+		this.attemptsCount = attemptsCount;
+	}
+	
+	private void initCollection(){
+		attempts = new ArrayList<>();
 		rightPlacedLetters = new HashSet<>();
 		wrongPlacedLetters = new HashSet<>();
 		notUsedLetters = new HashSet<>();
 	}
-	
-	// public Game(String wordToGuess, int attemptsCount){	
-		// this();
-		// this.hiddenWord = wordToGuess;
-		// this.attemptsCount = attemptsCount;
-	// }
 	
 	public String getHiddenWord(){
 		return this.hiddenWord;
@@ -96,7 +96,7 @@ public class Game{
 	}
 	
 	public void recordAttempt(String guess){
-		this.attempts.addLast(new Attempt(guess));
+		this.attempts.add(new Attempt(guess));
 	}
 	
 }

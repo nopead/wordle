@@ -1,14 +1,14 @@
-package main.java.view;
+package com.wordle.view;
 
-import main.java.repository.DictionaryRepository;
-import main.java.repository.DictionaryRepositoryImplJson;
-import main.java.view.MessageConstants;
-import main.java.view.ErrorConstants;
-import main.java.view.Readable;
-import main.java.view.Printable;
-import main.java.view.WordleMessagePrinter;
-import main.java.view.UserInputReader;
-import main.java.logic.Game;
+import com.wordle.repository.DictionaryRepository;
+import com.wordle.repository.DictionaryRepositoryImplJson;
+import com.wordle.view.MessageConstants;
+import com.wordle.view.ErrorConstants;
+import com.wordle.view.Readable;
+import com.wordle.view.Printable;
+import com.wordle.view.WordleMessagePrinter;
+import com.wordle.view.UserInputReader;
+import com.wordle.logic.Game;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
@@ -60,7 +60,7 @@ public class Wordle{
 		}
 		while (responce < 1 || responce > 3);
 	}
-	
+
 	private void startGame(){
 		game = new Game(dictionaryRepository.getRandomWord(5));
 		readAttempts();	
@@ -117,18 +117,18 @@ public class Wordle{
 	
 	private void gameOverByAttemptsOver(){
 		printer.printMessage(MessageConstants.COMPASSION_TEXT);
-		System.out.println("Secret word was: " + game.getHiddenWord());
+		printer.printMessage("Secret word was: " + game.getHiddenWord());
 		clearGame();
 		loadMainMenu();
 	}
 	
 	private void printCurrentProgress(){
-		System.out.println("==Result of the attempt==");
-		System.out.println("guess result: " + game.showAttemptEncryptResult());
-		System.out.println("Remaining attempts count: " + game.getRemainingAttemptsCount());
-		System.out.println("All right placed guessed letters: " + game.getRightPlacedLetters());
-		System.out.println("All wrong placed guessed letters: " + game.getWrongPlacedLetters());
-		System.out.println("All letter that not used in secret word: " + game.getNotUsedLetters());
+		printer.printMessage("==Result of the attempt==");
+		printer.printMessage("guess result: " + game.showAttemptEncryptResult());
+		printer.printMessage("Remaining attempts count: " + game.getRemainingAttemptsCount());
+		printer.printMessage("All right placed guessed letters: " + game.getRightPlacedLetters());
+		printer.printMessage("All wrong placed guessed letters: " + game.getWrongPlacedLetters());
+		printer.printMessage("All letter that not used in secret word: " + game.getNotUsedLetters());
 	}
 	
 	private void clearGame(){

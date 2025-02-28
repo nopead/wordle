@@ -1,6 +1,6 @@
-package main.java.repository;
+package com.wordle.repository;
 
-import main.java.repository.DictionaryReadable;
+import com.wordle.repository.DictionaryReadable;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.StringReader;
@@ -13,7 +13,7 @@ import java.util.Random;
 
 public class JsonDictionaryReader implements DictionaryReadable{
 	
-	private static final String filePath = System.getProperty("user.dir") + "/src/resources/";
+	private static final String filePath = System.getProperty("user.dir") + "/src/main/resources/";
 	private static final String fileExctention = ".json";
 	
 	public String getRandomDictionaryWord(int dictionaryWordsLength){

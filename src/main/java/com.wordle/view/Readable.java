@@ -1,4 +1,4 @@
-package main.java.view;
+package com.wordle.view;
 
 import java.lang.NumberFormatException;
 import java.io.IOException;

@@ -1,4 +1,4 @@
-package main.java.repository;
+package com.wordle.repository;
 
 interface DictionaryReadable{
 	

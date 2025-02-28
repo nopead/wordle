@@ -1,8 +1,8 @@
-package main.java.repository;
+package com.wordle.repository;
 
-import main.java.repository.DictionaryRepository;
-import main.java.repository.DictionaryReadable;
-import main.java.repository.JsonDictionaryReader;
+import com.wordle.repository.DictionaryRepository;
+import com.wordle.repository.DictionaryReadable;
+import com.wordle.repository.JsonDictionaryReader;
 import java.util.Random;
 
 public class DictionaryRepositoryImplJson implements DictionaryRepository{

@@ -1,4 +1,4 @@
-package main.java.logic;
+package com.wordle.logic;
 
 public class Attempt{
 	

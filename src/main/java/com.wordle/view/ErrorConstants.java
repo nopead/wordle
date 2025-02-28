@@ -1,4 +1,4 @@
-package main.java.view;
+package com.wordle.view;
 
 public final class ErrorConstants{
 	

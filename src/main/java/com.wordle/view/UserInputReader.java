@@ -1,9 +1,9 @@
-package main.java.view;
+package com.wordle.view;
 
 import java.io.IOException;
 import java.lang.NumberFormatException;
 import java.util.Scanner;
-import main.java.view.Readable;
+import com.wordle.view.Readable;
 
 public class UserInputReader implements Readable{
 	
@@ -21,4 +21,8 @@ public class UserInputReader implements Readable{
 		return sc.nextLine();
 	}
  	
+	public void close(){
+		sc.close();
+	}
+	
 }
