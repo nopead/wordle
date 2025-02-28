@@ -1,6 +1,6 @@
-package resources;
+package com.wordle.view;
 
-public final class ErrorConstant{
+public final class ErrorConstants{
 	
 	public static final String ONLY_DIGITS_REQUIRED = "You must use digits in menu input";
 	
@@ -13,4 +13,7 @@ public final class ErrorConstant{
 	public static final String INPUT_TEXT_LENGTH_SHORTER = "Input word length are smaller than hidden";
 	
 	public static final String INPUT_TEXT_LENGTH_LONGER = "Input word length are bigger than hidden";
+	
+	private ErrorConstants() {};
+	
 }

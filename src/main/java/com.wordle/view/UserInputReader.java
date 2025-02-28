@@ -1,13 +1,13 @@
-package main.view;
+package com.wordle.view;
 
 import java.io.IOException;
 import java.lang.NumberFormatException;
 import java.util.Scanner;
-import resources.ErrorConstant;
+import com.wordle.view.Readable;
 
-public class UserInputReader implements IReadable{
+public class UserInputReader implements Readable{
 	
-	private Scanner sc;
+	private final Scanner sc;
 	
 	public UserInputReader(){
 		sc = new Scanner(System.in);
@@ -19,5 +19,10 @@ public class UserInputReader implements IReadable{
 	
 	public String readWord(){
 		return sc.nextLine();
-	} 	
+	}
+ 	
+	public void close(){
+		sc.close();
+	}
+	
 }

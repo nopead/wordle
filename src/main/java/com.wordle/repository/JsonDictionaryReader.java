@@ -1,6 +1,6 @@
-package main.repository;
+package com.wordle.repository;
 
-import main.repository.IDictionaryReadable;
+import com.wordle.repository.DictionaryReadable;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.StringReader;
@@ -11,8 +11,9 @@ import com.google.gson.stream.JsonToken;
 import com.google.gson.Strictness;
 import java.util.Random;
 
-public class JsonDictionaryReader implements IDictionaryReadable{
-	private static final String filePath = System.getProperty("user.dir") + "/src/resources/";
+public class JsonDictionaryReader implements DictionaryReadable{
+	
+	private static final String filePath = System.getProperty("user.dir") + "/src/main/resources/";
 	private static final String fileExctention = ".json";
 	
 	public String getRandomDictionaryWord(int dictionaryWordsLength){
@@ -38,16 +39,14 @@ public class JsonDictionaryReader implements IDictionaryReadable{
 		return "";
 	}
 	
-	public boolean isDictionaryContainsWord(int dictionaryWordsLength, String word){
-		int index = 0;
-		try (JsonReader dictionaryWordsReader = getDictionaryWordsArray(dictionaryWordsLength)){
+	public boolean isDictionaryContainsWord(String word){
+		try (JsonReader dictionaryWordsReader = getDictionaryWordsArray(word.length())){
 			dictionaryWordsReader.beginArray();
 			while(dictionaryWordsReader.hasNext()){
 				if(word.equals(dictionaryWordsReader.nextString())){
 					dictionaryWordsReader.close();
 					return true;
 				}
-				index++;
 			}
 			dictionaryWordsReader.endArray();
 		}catch (IOException e){
@@ -99,5 +98,6 @@ public class JsonDictionaryReader implements IDictionaryReadable{
 		}
 		return new JsonReader(new StringReader("[]"));
 	}
+	
 }
 

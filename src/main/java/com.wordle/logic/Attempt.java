@@ -1,6 +1,7 @@
-package main.logic.game;
+package com.wordle.logic;
 
 public class Attempt{
+	
 	private	String guess;
 	
 	public Attempt(String guess){
@@ -10,4 +11,5 @@ public class Attempt{
 	public String getGuess(){
 		return this.guess;
 	}
+	
 }

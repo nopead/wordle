@@ -1,6 +1,6 @@
-package resources;
+package com.wordle.view;
 
-public final class StringConstant{
+public final class MessageConstants{
 	
 	public static final String MAIN_MENU_TEXT = "=====MENU=====        \n" + 
 												"Press 1 to start game.\n" + 
@@ -23,11 +23,14 @@ public final class StringConstant{
 												 "==========================================================================================================================================================	\n" +
 												 "\n\n";
 	
-	public static final String COMPASSION_MESSAGE_TEXT = "Unfortunatelly, you lose =( . Try again!";
+	public static final String COMPASSION_TEXT = "Unfortunatelly, you lose =( . Try again!";
 	
-	public static final String CONGRATULATION_MESSAGE_TEXT = "CONGRATULATIONS!!! You guessed the word!";
+	public static final String CONGRATULATION_TEXT = "CONGRATULATIONS!!! You guessed the word!";
 	
-	public static final String GREETING_MESSAGE_TEXT = "Hello! Welcome to \"Wordle\" game!";
+	public static final String GREETING_TEXT = "Hello! Welcome to \"Wordle\" game!";
 	
-	public static final String INPUT_TEXT_REQUEST_MESSAGE = "Type your guess:";
+	public static final String INPUT_TEXT_REQUEST = "Type your guess:";
+	
+	private MessageConstants() {}
+	
 }
