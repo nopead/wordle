@@ -1,4 +1,4 @@
-import main.java.view.Wordle;
+import com.wordle.view.Wordle;
 
 public class Main{
 	
