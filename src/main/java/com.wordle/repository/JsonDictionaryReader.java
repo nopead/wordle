@@ -6,98 +6,40 @@ import java.io.FileReader;
 import java.io.StringReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonToken;
-import com.google.gson.Strictness;
-import java.util.Random;
+import com.fasterxml.jackson.core.JsonToken;
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonToken;
+import com.fasterxml.jackson.core.JsonParser;
+import java.util.List;
+import java.util.ArrayList;
 
 public class JsonDictionaryReader implements DictionaryReadable{
 	
 	private static final String filePath = System.getProperty("user.dir") + "/src/main/resources/";
-	private static final String fileExctention = ".json";
+	private static final String fileExtention = ".json";
 	
-	public String getRandomDictionaryWord(int dictionaryWordsLength){
-		int pointer = 0;
-		Random rnd = new Random();
-		int randomWordIndex = rnd.nextInt(getDictionaryLength(dictionaryWordsLength));
-		try (JsonReader dictionaryWordsReader = getDictionaryWordsArray(dictionaryWordsLength)){
-			dictionaryWordsReader.beginArray();
-			while(dictionaryWordsReader.hasNext()){
-				if(pointer == randomWordIndex){
-					return dictionaryWordsReader.nextString();
-				}
-				else{
-					pointer++;
-					dictionaryWordsReader.skipValue();
-				}
-				
-			}
-			dictionaryWordsReader.endArray();
-		}catch (IOException e){
-			e.printStackTrace();
-		}
-		return "";
-	}
-	
-	public boolean isDictionaryContainsWord(String word){
-		try (JsonReader dictionaryWordsReader = getDictionaryWordsArray(word.length())){
-			dictionaryWordsReader.beginArray();
-			while(dictionaryWordsReader.hasNext()){
-				if(word.equals(dictionaryWordsReader.nextString())){
-					dictionaryWordsReader.close();
-					return true;
-				}
-			}
-			dictionaryWordsReader.endArray();
-		}catch (IOException e){
-			e.printStackTrace();
-		}
-		return false;
-	}
-	
-	public int getDictionaryLength(int dictionaryWordsLength){
-		int count = 0;
-		try (JsonReader dictionaryWordsReader = getDictionaryWordsArray(dictionaryWordsLength)){
-			dictionaryWordsReader.beginArray();
-			while(dictionaryWordsReader.hasNext()){
-				dictionaryWordsReader.skipValue();
-				count++;
-			}
-			dictionaryWordsReader.endArray();
-		}catch (IOException e){
-			e.printStackTrace();
-		}
-		return count;
-	}
-			
-	private JsonReader getDictionaryWordsArray(int dictionaryWordsLength) throws IOException{
-		try{
-			JsonReader jsonReader = new JsonReader(new BufferedReader(new FileReader(filePath + "dictionaries" + fileExctention)));
-			jsonReader.setStrictness(Strictness.LENIENT);
-			jsonReader.beginArray();
-			while(jsonReader.hasNext()){
-				jsonReader.beginObject();
-				while(jsonReader.hasNext()){
-					if(JsonToken.NAME.equals(jsonReader.peek()) && jsonReader.nextName().equals("words_length")){
-						if(jsonReader.nextInt() == dictionaryWordsLength){
-							while(!(JsonToken.BEGIN_ARRAY.equals(jsonReader.peek()))){
-								jsonReader.skipValue();
-							}
-							return jsonReader;
-						}
+	public String[] getDictionaryWords(int dictionaryWordsLength) throws IOException{
+		JsonFactory jsonFactory = new JsonFactory();
+		try (JsonParser parser = jsonFactory.createJsonParser(new BufferedReader(new FileReader(filePath + "dictionaries" + fileExtention)))){
+			while(!parser.isClosed()){
+				JsonToken currentToken = parser.currentToken();
+				if (JsonToken.FIELD_NAME.equals(currentToken) && parser.getCurrentName().equals("words_length") && parser.nextIntValue(-1) == dictionaryWordsLength){
+					while(!(JsonToken.START_ARRAY.equals(parser.currentToken()))){
+						parser.nextToken();
 					}
-					else{
-						jsonReader.skipValue();
+					parser.nextToken();
+					List<String> dictionaryWords = new ArrayList<>();
+					while(!(JsonToken.END_ARRAY.equals(parser.currentToken()))){
+						dictionaryWords.add(parser.getValueAsString());
+						parser.nextToken();
 					}
-				}
-				jsonReader.endObject();
+					parser.close();
+					return dictionaryWords.toArray(new String[0]);
+				} 
+				parser.nextToken();
 			}
-			jsonReader.endArray();
-		} catch (FileNotFoundException e){
-			e.printStackTrace();
 		}
-		return new JsonReader(new StringReader("[]"));
+		return new String[0];
 	}
 	
 }
-

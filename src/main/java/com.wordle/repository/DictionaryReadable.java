@@ -1,11 +1,9 @@
 package com.wordle.repository;
 
+import java.io.IOException;
+
 interface DictionaryReadable{
 	
-	int getDictionaryLength(int wordsLength);
-	
-	boolean isDictionaryContainsWord(String word);
-	
-	String getRandomDictionaryWord(int wordsLength);
+	String[] getDictionaryWords(int dictionaryWordsLength) throws IOException;
 
 }

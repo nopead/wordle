@@ -4,23 +4,31 @@ import com.wordle.repository.DictionaryRepository;
 import com.wordle.repository.DictionaryReadable;
 import com.wordle.repository.JsonDictionaryReader;
 import java.util.Random;
+import java.util.Arrays;
+import java.util.stream.Stream;
+import java.io.IOException;
 
 public class DictionaryRepositoryImplJson implements DictionaryRepository{
 	
-	public int getDictionaryLength(int wordsLength){
-		DictionaryReadable dictionaryReader = new JsonDictionaryReader();
-		int dictionaryLength = dictionaryReader.getDictionaryLength(wordsLength);
-		return dictionaryLength;
-	}
+	private final static DictionaryReadable dictionaryReader = new JsonDictionaryReader();
 	
+	private String[] dictionary;
+		
+	public void readDictionary(int wordsLength){
+		try{ 
+			dictionary = dictionaryReader.getDictionaryWords(wordsLength);
+		} catch (IOException e){
+			e.printStackTrace();
+		}
+	}
+		
 	public boolean isDictionaryContainsWord(String word){
-		DictionaryReadable dictionaryReader = new JsonDictionaryReader();
-		return dictionaryReader.isDictionaryContainsWord(word);
+		return Arrays.stream(dictionary).anyMatch(dictionaryWord -> (dictionaryWord.equals(word)));
 	}
 	
-	public String getRandomWord(int wordLength){
-		DictionaryReadable dictionaryReader = new JsonDictionaryReader();
-		return dictionaryReader.getRandomDictionaryWord(wordLength);
+	public String getRandomWord(){
+		Random rnd = new Random();
+		return dictionary[rnd.nextInt(0, dictionary.length)];
 	}
 	
 }
