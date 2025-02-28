@@ -3,9 +3,10 @@ package main.java.view;
 import java.lang.NumberFormatException;
 import java.io.IOException;
 
-public interface IReadable{
+interface Readable{
 	
-	public String readWord();
+	String readWord();
 	
-	public int readDigit();
+	int readDigit();
+	
 }
