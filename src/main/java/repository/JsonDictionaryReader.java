@@ -1,6 +1,6 @@
 package main.java.repository;
 
-import main.java.repository.IDictionaryReadable;
+import main.java.repository.DictionaryReadable;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.StringReader;
@@ -11,7 +11,8 @@ import com.google.gson.stream.JsonToken;
 import com.google.gson.Strictness;
 import java.util.Random;
 
-public class JsonDictionaryReader implements IDictionaryReadable{
+public class JsonDictionaryReader implements DictionaryReadable{
+	
 	private static final String filePath = System.getProperty("user.dir") + "/src/resources/";
 	private static final String fileExctention = ".json";
 	
@@ -39,7 +40,6 @@ public class JsonDictionaryReader implements IDictionaryReadable{
 	}
 	
 	public boolean isDictionaryContainsWord(String word){
-		int index = 0;
 		try (JsonReader dictionaryWordsReader = getDictionaryWordsArray(word.length())){
 			dictionaryWordsReader.beginArray();
 			while(dictionaryWordsReader.hasNext()){
@@ -47,7 +47,6 @@ public class JsonDictionaryReader implements IDictionaryReadable{
 					dictionaryWordsReader.close();
 					return true;
 				}
-				index++;
 			}
 			dictionaryWordsReader.endArray();
 		}catch (IOException e){
@@ -73,7 +72,7 @@ public class JsonDictionaryReader implements IDictionaryReadable{
 			
 	private JsonReader getDictionaryWordsArray(int dictionaryWordsLength) throws IOException{
 		try{
-			JsonReader jsonReader = new JsonReader(new BufferedReader(new FileReader(filePath + "dcopy" + fileExctention)));
+			JsonReader jsonReader = new JsonReader(new BufferedReader(new FileReader(filePath + "dictionaries" + fileExctention)));
 			jsonReader.setStrictness(Strictness.LENIENT);
 			jsonReader.beginArray();
 			while(jsonReader.hasNext()){
@@ -99,5 +98,6 @@ public class JsonDictionaryReader implements IDictionaryReadable{
 		}
 		return new JsonReader(new StringReader("[]"));
 	}
+	
 }
 

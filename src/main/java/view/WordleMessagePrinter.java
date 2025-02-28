@@ -1,8 +1,9 @@
-package main.view;
+package main.java.view;
 
-public class WordleMessagePrinter{
+public class WordleMessagePrinter implements Printable{
 	
 	public void printMessage(String message){
 		System.out.println(message);
 	}
+	
 }

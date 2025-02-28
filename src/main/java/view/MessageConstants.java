@@ -2,8 +2,6 @@ package main.java.view;
 
 public final class MessageConstants{
 	
-	private MessageConstants() {}
-	
 	public static final String MAIN_MENU_TEXT = "=====MENU=====        \n" + 
 												"Press 1 to start game.\n" + 
 												"Press 2 to see rules. \n" + 
@@ -32,5 +30,7 @@ public final class MessageConstants{
 	public static final String GREETING_TEXT = "Hello! Welcome to \"Wordle\" game!";
 	
 	public static final String INPUT_TEXT_REQUEST = "Type your guess:";
+	
+	private MessageConstants() {}
 	
 }

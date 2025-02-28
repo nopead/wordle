@@ -9,21 +9,32 @@ import java.util.HashSet;
 
 public class Game{
 	
-	private final int attemptsCount;
+	private final int attemptsCount = 6;
 	private final String hiddenWord;
-	public List<Attempt> attempts;
+	
 	private Set<Character> rightPlacedLetters;
 	private Set<Character> wrongPlacedLetters;
 	private Set<Character> notUsedLetters;
 	
-	public Game(String wordToGuess, int attemptsCount){	
+	public List<Attempt> attempts;
+	
+	public Game(String wordToGuess){
+		init();
+		this.hiddenWord = wordToGuess;
+	}
+	
+	private void init(){
 		attempts = new LinkedList<>();
 		rightPlacedLetters = new HashSet<>();
 		wrongPlacedLetters = new HashSet<>();
-		notUsedLetters = new HashSet<>() ;
-		this.hiddenWord = wordToGuess;
-		this.attemptsCount = attemptsCount;
+		notUsedLetters = new HashSet<>();
 	}
+	
+	// public Game(String wordToGuess, int attemptsCount){	
+		// this();
+		// this.hiddenWord = wordToGuess;
+		// this.attemptsCount = attemptsCount;
+	// }
 	
 	public String getHiddenWord(){
 		return this.hiddenWord;
@@ -50,7 +61,7 @@ public class Game{
 	}
 	
 	public void stateLetters(){
-		String guessWord = game attempts.peekLast().getGuess();
+		String guessWord = attempts.getLast().getGuess();
 		for(int i = 0; i < guessWord.length(); i++){
 			if (Character.compare(guessWord.charAt(i), hiddenWord.charAt(i)) == 0){
 				rightPlacedLetters.add(guessWord.charAt(i));
@@ -65,8 +76,8 @@ public class Game{
 		this.wrongPlacedLetters.removeAll(rightPlacedLetters);
 	}
 	
-	private String showAttemptEncryptResult(){
-		String currentGuess = attempts.peekLast().getGuess();
+	public String showAttemptEncryptResult(){
+		String currentGuess = attempts.getLast().getGuess();
 		char[] letters = new char[currentGuess.length()];
 		Arrays.fill(letters, '*');
 		for (int i = 0; i < currentGuess.length(); i++){
@@ -87,4 +98,5 @@ public class Game{
 	public void recordAttempt(String guess){
 		this.attempts.addLast(new Attempt(guess));
 	}
+	
 }
