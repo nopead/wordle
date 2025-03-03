@@ -1,6 +1,7 @@
 package com.wordle.repository;
 
 import com.wordle.repository.DictionaryReadable;
+import com.wordle.repository.ResourcesConstants;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.StringReader;
@@ -15,12 +16,9 @@ import java.util.ArrayList;
 
 public class JsonDictionaryReader implements DictionaryReadable{
 	
-	private static final String filePath = System.getProperty("user.dir") + "/src/main/resources/";
-	private static final String fileExtention = ".json";
-	
 	public String[] getDictionaryWords(int dictionaryWordsLength) throws IOException{
 		JsonFactory jsonFactory = new JsonFactory();
-		try (JsonParser parser = jsonFactory.createParser(new BufferedReader(new FileReader(filePath + "dictionaries" + fileExtention)))){
+		try (JsonParser parser = jsonFactory.createParser(new BufferedReader(new FileReader(ResourcesConstants.RESOURCES_PATH + ResourcesConstants.JSON_DICTIONARIES_FILENAME)))){
 			while(!parser.isClosed()){
 				JsonToken currentToken = parser.currentToken();
 				if (JsonToken.FIELD_NAME.equals(currentToken) && parser.getCurrentName().equals("words_length") && parser.nextIntValue(-1) == dictionaryWordsLength){
