@@ -20,7 +20,7 @@ public class JsonDictionaryReader implements DictionaryReadable{
 	
 	public String[] getDictionaryWords(int dictionaryWordsLength) throws IOException{
 		JsonFactory jsonFactory = new JsonFactory();
-		try (JsonParser parser = jsonFactory.createJsonParser(new BufferedReader(new FileReader(filePath + "dictionaries" + fileExtention)))){
+		try (JsonParser parser = jsonFactory.createParser(new BufferedReader(new FileReader(filePath + "dictionaries" + fileExtention)))){
 			while(!parser.isClosed()){
 				JsonToken currentToken = parser.currentToken();
 				if (JsonToken.FIELD_NAME.equals(currentToken) && parser.getCurrentName().equals("words_length") && parser.nextIntValue(-1) == dictionaryWordsLength){
