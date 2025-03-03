@@ -14,7 +14,7 @@ public class Game{
 	
 	private Set<Character> rightPlacedLetters = new HashSet<>();
 	private Set<Character> wrongPlacedLetters = new HashSet<>();
-	private Set<Character> notUsedLetters; = = new HashSet<>();
+	private Set<Character> notUsedLetters = new HashSet<>();
 	private List<Attempt> attempts = new ArrayList<>();
 	
 	public Game(String wordToGuess){
