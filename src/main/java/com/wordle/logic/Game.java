@@ -81,7 +81,7 @@ public class Game{
 	
 	public String showAttemptEncryptResult(){
 		String currentGuess = attempts.getLast().getGuess();
-		List<Character> letters = new ArrayList<Character>();
+		List<Character> letters = new ArrayList<>();
 		for (int i = 0; i < currentGuess.length(); i++){
 			Character currentLetter = currentGuess.charAt(i);
 			if (Character.compare(currentLetter, hiddenWord.charAt(i)) == 0){
@@ -90,12 +90,13 @@ public class Game{
 			}
 			else if (hiddenWord.indexOf(currentLetter) > -1){
 				letters.add(currentLetter);
+				hideLettersByCount(letters, currentLetter);
 			}
 			else {
 				letters.add('*');
 			}
 		}
-		return String.valueOf(letters.toString());
+		return String.valueOf(letters).replaceAll("\\[|\\]|, ", "");
 	}
 	
 	public int getRemainingAttemptsCount(){
