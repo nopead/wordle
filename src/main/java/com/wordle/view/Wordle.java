@@ -35,18 +35,24 @@ public class Wordle{
 		do {
 			try{ 
 				responce = reader.readDigit();
-				if(responce == 1){
-					startGame();
-				}
-				else if(responce == 2){
-					printer.printMessage(MessageConstants.GAME_RULES_TEXT);
-					loadMainMenu();
-				}
-				else if(responce == 3){
-					System.exit(0);
-				}	
-				else {
-					printer.printMessage(ErrorConstants.MAIN_MENU_OUT_OF_BOUNDS_EXCEPTION);
+				switch (responce) {
+					case 1: {
+						startGame();
+						break;
+					}
+					case 2: {
+						printer.printMessage(MessageConstants.GAME_RULES_TEXT);
+						loadMainMenu();
+						break;
+					}
+					case 3: {
+						System.exit(0);
+						break;
+					}
+					default: {
+						printer.printMessage(ErrorConstants.MAIN_MENU_OUT_OF_BOUNDS_EXCEPTION);
+						break;
+					}
 				}
 			} catch (NumberFormatException e){
 				printer.printMessage(ErrorConstants.ONLY_DIGITS_REQUIRED);
