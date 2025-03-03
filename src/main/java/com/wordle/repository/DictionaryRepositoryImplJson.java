@@ -28,6 +28,7 @@ public class DictionaryRepositoryImplJson implements DictionaryRepository{
 	
 	public String getRandomWord(){
 		Random rnd = new Random();
+		System.out.println("Длина словаря: " + dictionary.length);
 		return dictionary[rnd.nextInt(0, dictionary.length)];
 	}
 	
