@@ -68,13 +68,11 @@ public class Game{
 		this.wrongPlacedLetters.removeAll(rightPlacedLetters);
 	}
 	
-	private void hideLettersByCount(List<Character> letters, Character letter){
+	private void hideLettersByGuessedCount(List<Character> letters, Character letter){
 		long currentLetterInWordCount = hiddenWord.chars().filter(ch -> ch == letter).count();
 		long currentLetterInListCount = letters.stream().filter(ch -> Character.toLowerCase(ch) == letter).count();
 		while(currentLetterInListCount > currentLetterInWordCount){
-			int lastLetterIndex = letters.lastIndexOf(letter);
-			letters.remove(lastLetterIndex);
-			letters.add(lastLetterIndex, '*');
+			letters.set(letters.lastIndexOf(letter), '*');
 			currentLetterInListCount--;
 		}
 	}
@@ -86,11 +84,11 @@ public class Game{
 			Character currentLetter = currentGuess.charAt(i);
 			if (Character.compare(currentLetter, hiddenWord.charAt(i)) == 0){
 				letters.add(Character.toUpperCase(currentGuess.charAt(i)));
-				hideLettersByCount(letters, currentLetter);
+				hideLettersByGuessedCount(letters, currentLetter);
 			}
 			else if (hiddenWord.indexOf(currentLetter) > -1){
 				letters.add(currentLetter);
-				hideLettersByCount(letters, currentLetter);
+				hideLettersByGuessedCount(letters, currentLetter);
 			}
 			else {
 				letters.add('*');
