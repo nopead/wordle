@@ -1,6 +1,7 @@
 package com.wordle.logic;
 
 import com.wordle.logic.Attempt;
+import java.util.stream.Stream;
 import java.util.List;
 import java.util.Set;
 import java.util.ArrayList;
@@ -12,28 +13,19 @@ public class Game{
 	private final int attemptsCount;
 	private final String hiddenWord;
 	
-	private Set<Character> rightPlacedLetters;
-	private Set<Character> wrongPlacedLetters;
-	private Set<Character> notUsedLetters;
-	private List<Attempt> attempts;
+	private Set<Character> rightPlacedLetters = new HashSet<>();
+	private Set<Character> wrongPlacedLetters = new HashSet<>();
+	private Set<Character> notUsedLetters = new HashSet<>();
+	private List<Attempt> attempts = new ArrayList<>();
 	
 	public Game(String wordToGuess){
-		initCollection();
-		this.attemptsCount = 5;
+		this.attemptsCount = 6;
 		this.hiddenWord = wordToGuess;
 	}
 	
 	public Game(String wordToGuess, int attemptsCount){	
-		initCollection();
 		this.hiddenWord = wordToGuess;
 		this.attemptsCount = attemptsCount;
-	}
-	
-	private void initCollection(){
-		attempts = new ArrayList<>();
-		rightPlacedLetters = new HashSet<>();
-		wrongPlacedLetters = new HashSet<>();
-		notUsedLetters = new HashSet<>();
 	}
 	
 	public String getHiddenWord(){
@@ -76,19 +68,33 @@ public class Game{
 		this.wrongPlacedLetters.removeAll(rightPlacedLetters);
 	}
 	
+	private void hideLettersByGuessedCount(List<Character> letters, Character letter){
+		long currentLetterInWordCount = hiddenWord.chars().filter(ch -> ch == letter).count();
+		long currentLetterInListCount = letters.stream().filter(ch -> Character.toLowerCase(ch) == letter).count();
+		while(currentLetterInListCount > currentLetterInWordCount){
+			letters.set(letters.lastIndexOf(letter), '*');
+			currentLetterInListCount--;
+		}
+	}
+	
 	public String showAttemptEncryptResult(){
 		String currentGuess = attempts.getLast().getGuess();
-		char[] letters = new char[currentGuess.length()];
-		Arrays.fill(letters, '*');
+		List<Character> letters = new ArrayList<>();
 		for (int i = 0; i < currentGuess.length(); i++){
-			if (Character.compare(currentGuess.charAt(i), hiddenWord.charAt(i)) == 0){
-				letters[i] = Character.toUpperCase(currentGuess.charAt(i));
+			Character currentLetter = currentGuess.charAt(i);
+			if (Character.compare(currentLetter, hiddenWord.charAt(i)) == 0){
+				letters.add(Character.toUpperCase(currentGuess.charAt(i)));
+				hideLettersByGuessedCount(letters, currentLetter);
 			}
-			else if (hiddenWord.indexOf(currentGuess.charAt(i)) > -1){
-				letters[i] = currentGuess.charAt(i);
+			else if (hiddenWord.indexOf(currentLetter) > -1){
+				letters.add(currentLetter);
+				hideLettersByGuessedCount(letters, currentLetter);
+			}
+			else {
+				letters.add('*');
 			}
 		}
-		return String.valueOf(letters);
+		return String.valueOf(letters).replaceAll("\\[|\\]|, ", "");
 	}
 	
 	public int getRemainingAttemptsCount(){

@@ -14,21 +14,15 @@ import java.util.regex.Matcher;
 
 public class Wordle{
 	
-	private Printable printer;
-	private Readable reader;
+	private final Printable printer = new WordleMessagePrinter();
+	private final Readable reader = new UserInputReader();
+	
+	private DictionaryRepository dictionaryRepository = new DictionaryRepositoryImplJson();
 	private Game game;
-	private DictionaryRepository dictionaryRepository;
 	
 	public void run(){
-		initUtils();
 		printer.printMessage(MessageConstants.GREETING_TEXT);
 		loadMainMenu();
-	}
-	
-	private void initUtils(){
-		this.printer = new WordleMessagePrinter();
-		this.reader = new UserInputReader();
-		this.dictionaryRepository = new DictionaryRepositoryImplJson();
 	}
 	
 	void loadMainMenu(){
@@ -41,18 +35,24 @@ public class Wordle{
 		do {
 			try{ 
 				responce = reader.readDigit();
-				if(responce == 1){
-					startGame();
-				}
-				else if(responce == 2){
-					printer.printMessage(MessageConstants.GAME_RULES_TEXT);
-					loadMainMenu();
-				}
-				else if(responce == 3){
-					System.exit(0);
-				}	
-				else {
-					printer.printMessage(ErrorConstants.MAIN_MENU_OUT_OF_BOUNDS_EXCEPTION);
+				switch (responce) {
+					case 1: {
+						startGame();
+						break;
+					}
+					case 2: {
+						printer.printMessage(MessageConstants.GAME_RULES_TEXT);
+						loadMainMenu();
+						break;
+					}
+					case 3: {
+						System.exit(0);
+						break;
+					}
+					default: {
+						printer.printMessage(ErrorConstants.MAIN_MENU_OUT_OF_BOUNDS_EXCEPTION);
+						break;
+					}
 				}
 			} catch (NumberFormatException e){
 				printer.printMessage(ErrorConstants.ONLY_DIGITS_REQUIRED);
@@ -62,7 +62,8 @@ public class Wordle{
 	}
 
 	private void startGame(){
-		game = new Game(dictionaryRepository.getRandomWord(5));
+		dictionaryRepository.readDictionary(5);
+		game = new Game(dictionaryRepository.getRandomWord());
 		readAttempts();	
 	}
 	
