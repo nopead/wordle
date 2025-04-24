@@ -10,7 +10,7 @@ import java.util.HashSet;
 
 public class Game{
 	
-	private final int attemptsCount;
+	private final int allowedAttemptsCount;
 	private final String hiddenWord;
 	
 	private Set<Character> rightPlacedLetters = new HashSet<>();
@@ -19,33 +19,33 @@ public class Game{
 	private List<Attempt> attempts = new ArrayList<>();
 	
 	public Game(String wordToGuess){
-		this.attemptsCount = 6;
+		allowedAttemptsCount = 6;
 		this.hiddenWord = wordToGuess;
 	}
 	
-	public Game(String wordToGuess, int attemptsCount){	
+	public Game(String wordToGuess, int allowedAttemptsCount){	
 		this.hiddenWord = wordToGuess;
-		this.attemptsCount = attemptsCount;
+		this.allowedAttemptsCount = allowedAttemptsCount;
 	}
 	
 	public String getHiddenWord(){
-		return this.hiddenWord;
+		return hiddenWord;
 	}
 	
 	public String getRightPlacedLetters(){
-		return this.rightPlacedLetters.toString();
+		return rightPlacedLetters.toString();
 	}
 	
 	public String getWrongPlacedLetters(){
-		return this.wrongPlacedLetters.toString();
+		return wrongPlacedLetters.toString();
 	}
 	
 	public String getNotUsedLetters(){
-		return this.notUsedLetters.toString();
+		return notUsedLetters.toString();
 	}
 	
 	public boolean isAttemptsOver(){
-		return this.attempts.size() >= attemptsCount;
+		return attempts.size() >= allowedAttemptsCount;
 	}
 	
 	public boolean isGuessWordIsAnswer(String guessWord){
@@ -65,9 +65,11 @@ public class Game{
 				notUsedLetters.add(guessWord.charAt(i));
 			}
 		}
-		this.wrongPlacedLetters.removeAll(rightPlacedLetters);
+		wrongPlacedLetters.removeAll(rightPlacedLetters);
 	}
 	
+	//вынести два метода из класса игры
+	 
 	private void hideLettersByGuessedCount(List<Character> letters, Character letter){
 		long currentLetterInWordCount = hiddenWord.chars().filter(ch -> ch == letter).count();
 		long currentLetterInListCount = letters.stream().filter(ch -> Character.toLowerCase(ch) == letter).count();
@@ -94,15 +96,17 @@ public class Game{
 				letters.add('*');
 			}
 		}
-		return String.valueOf(letters).replaceAll("\\[|\\]|, ", "");
+		return String.valueOf(letters).replaceAll("\\[|\\]|, ", ""); //преобразование массива - [el, el, el] -> el el el
 	}
 	
+	// ============================
+	
 	public int getRemainingAttemptsCount(){
-		return attemptsCount - attempts.size();
+		return allowedAttemptsCount - attempts.size();
 	}
 	
 	public void recordAttempt(String guess){
-		this.attempts.add(new Attempt(guess));
+		attempts.add(new Attempt(guess));
 	}
 	
 }

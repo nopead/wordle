@@ -23,12 +23,12 @@ public class DictionaryRepositoryImplJson implements DictionaryRepository{
 	}
 		
 	public boolean isDictionaryContainsWord(String word){
-		return Arrays.stream(dictionary).anyMatch(dictionaryWord -> (dictionaryWord.equals(word)));
+		return Arrays.stream(dictionary)
+					 .anyMatch((dictionaryWord) -> dictionaryWord.equals(word));
 	}
 	
 	public String getRandomWord(){
 		Random rnd = new Random();
-		System.out.println("Длина словаря: " + dictionary.length);
 		return dictionary[rnd.nextInt(0, dictionary.length)];
 	}
 	

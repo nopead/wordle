@@ -15,7 +15,10 @@ import java.util.regex.Matcher;
 public class Wordle{
 	
 	private final Printable printer = new WordleMessagePrinter();
-	private final Readable reader = new UserInputReader();
+	private final Readable reader = new UserInputReader(); 
+
+	private int wordLengthSetting = 5;
+	private String wordPatternSetting = "^[a-z]*";
 	
 	private DictionaryRepository dictionaryRepository = new DictionaryRepositoryImplJson();
 	private Game game;
@@ -62,7 +65,7 @@ public class Wordle{
 	}
 
 	private void startGame(){
-		dictionaryRepository.readDictionary(5);
+		dictionaryRepository.readDictionary(wordLengthSetting);
 		game = new Game(dictionaryRepository.getRandomWord());
 		readAttempts();	
 	}
@@ -71,25 +74,30 @@ public class Wordle{
 		while (!game.isAttemptsOver()){
 			printer.printMessage(MessageConstants.INPUT_TEXT_REQUEST);
 			String guessWord = reader.readWord().toLowerCase();
-			if (isInputFormatCorrect(guessWord)){
+			if (isInputWordValid(guessWord)){
+				game.recordAttempt(guessWord);
+				game.stateLetters();
 				if(game.isGuessWordIsAnswer(guessWord)){
-					game.recordAttempt(guessWord);
-					game.stateLetters();
 					gameOverByAnswered();
 					return;
 				}
 				else{
-					game.recordAttempt(guessWord);
-					game.stateLetters();
-					printCurrentProgress();
+					printer.printMessage("=====================Result of the attempt===========================" + "\n" +
+							 "guess result: " + game.showAttemptEncryptResult() + "\n" +
+							 "Remaining attempts count: " + game.getRemainingAttemptsCount() + "\n" + 
+							 "All right placed guessed letters: " + game.getRightPlacedLetters() + "\n" +
+							 "All wrong placed guessed letters: " + game.getWrongPlacedLetters() + "\n" + 
+						     "All letter that not used in secret word: " + game.getNotUsedLetters() + "\n" + 
+							 "====================================================================="
+					);
 				}
 			}
 		}
 		gameOverByAttemptsOver();
 	}
 
-	private boolean isInputFormatCorrect(String guessWord){
-		if (!Pattern.compile("^[a-z]*").matcher(guessWord).matches()){
+	private boolean isInputWordValid(String guessWord){
+		if (!Pattern.compile(lattinWordPattern).matcher(guessWord).matches()){
 			printer.printMessage(ErrorConstants.ONLY_LATTIN_LETTERS_REQUIRED);
 			return false;
 		}
@@ -121,15 +129,6 @@ public class Wordle{
 		printer.printMessage("Secret word was: " + game.getHiddenWord());
 		clearGame();
 		loadMainMenu();
-	}
-	
-	private void printCurrentProgress(){
-		printer.printMessage("==Result of the attempt==");
-		printer.printMessage("guess result: " + game.showAttemptEncryptResult());
-		printer.printMessage("Remaining attempts count: " + game.getRemainingAttemptsCount());
-		printer.printMessage("All right placed guessed letters: " + game.getRightPlacedLetters());
-		printer.printMessage("All wrong placed guessed letters: " + game.getWrongPlacedLetters());
-		printer.printMessage("All letter that not used in secret word: " + game.getNotUsedLetters());
 	}
 	
 	private void clearGame(){
