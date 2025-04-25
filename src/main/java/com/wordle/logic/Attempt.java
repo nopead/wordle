@@ -2,7 +2,7 @@ package com.wordle.logic;
 
 public class Attempt{
 	
-	private	String guess;
+	private final String guess;
 	
 	public Attempt(String guess){
 		this.guess = guess;
