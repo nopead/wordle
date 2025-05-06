@@ -1,39 +1,52 @@
 package com.wordle.view;
 
-import com.wordle.repository.DictionaryRepository;
-import com.wordle.repository.DictionaryRepositoryImplJson;
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import com.wordle.view.RightGuessLetterStater;
+import com.wordle.view.WrongGuessLetterStater;
+import com.wordle.view.UnusedGuessLetterStater;
+import com.wordle.view.GuessLetterStater;
 import com.wordle.view.MessageConstants;
-import com.wordle.view.ErrorConstants;
+import com.wordle.view.ErrorMessageConstants;
 import com.wordle.view.Readable;
-import com.wordle.view.Printable;
-import com.wordle.view.WordleMessagePrinter;
 import com.wordle.view.UserInputReader;
-import com.wordle.logic.Game;
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
+import com.wordle.logic.GameManager;
+import logic.RecordAttemptResponse;
 
-public class Wordle{
-	
-	private final Printable printer = new WordleMessagePrinter();
-	private final Readable reader = new UserInputReader(); 
 
-	private int wordLengthSetting = 5;
-	private String wordPatternSetting = "^[a-z]*";
-	
-	private DictionaryRepository dictionaryRepository = new DictionaryRepositoryImplJson();
-	private Game game;
-	
-	public void run(){
-		printer.printMessage(MessageConstants.GREETING_TEXT);
+public class Wordle {
+
+	private final Readable reader;
+	private final ArrayList<GuessLetterStater> staters;
+	private final RightGuessLetterStater rightGuessLetterStater;
+ 	private final WrongGuessLetterStater wrongGuessLetterStater;
+	private final UnusedGuessLetterStater unusedGuessLetterStater;
+
+	private GameManager gameManager;
+
+	public Wordle() {
+		reader = new UserInputReader();
+		rightGuessLetterStater = new RightGuessLetterStater();
+		wrongGuessLetterStater = new WrongGuessLetterStater(rightGuessLetterStater);
+		unusedGuessLetterStater = new UnusedGuessLetterStater();
+		staters = new ArrayList<>(List.of(rightGuessLetterStater, wrongGuessLetterStater, unusedGuessLetterStater));
+	}
+
+	public void run() {
+		System.out.println(MessageConstants.GREETING_TEXT);
 		loadMainMenu();
 	}
 	
-	void loadMainMenu(){
-		printer.printMessage(MessageConstants.MAIN_MENU_TEXT);
-		handleMainMenuUserResponce();
+	void loadMainMenu() {
+		System.out.println(MessageConstants.MAIN_MENU_TEXT);
+		handleMainMenuUserResponse();
 	}
 	
-	private void handleMainMenuUserResponce(){
+	private void handleMainMenuUserResponse() {
 		int responce = 0;
 		do {
 			try{ 
@@ -44,7 +57,7 @@ public class Wordle{
 						break;
 					}
 					case 2: {
-						printer.printMessage(MessageConstants.GAME_RULES_TEXT);
+						System.out.println(MessageConstants.GAME_RULES_TEXT);
 						loadMainMenu();
 						break;
 					}
@@ -53,86 +66,81 @@ public class Wordle{
 						break;
 					}
 					default: {
-						printer.printMessage(ErrorConstants.MAIN_MENU_OUT_OF_BOUNDS_EXCEPTION);
+						System.out.println(ErrorMessageConstants.MAIN_MENU_OUT_OF_BOUNDS_EXCEPTION);
 						break;
 					}
 				}
 			} catch (NumberFormatException e){
-				printer.printMessage(ErrorConstants.ONLY_DIGITS_REQUIRED);
+				System.out.println(ErrorMessageConstants.ONLY_DIGITS_REQUIRED);
 			}
 		}
 		while (responce < 1 || responce > 3);
 	}
 
-	private void startGame(){
-		dictionaryRepository.readDictionary(wordLengthSetting);
-		game = new Game(dictionaryRepository.getRandomWord());
-		readAttempts();	
-	}
-	
-	private void readAttempts(){
-		while (!game.isAttemptsOver()){
-			printer.printMessage(MessageConstants.INPUT_TEXT_REQUEST);
-			String guessWord = reader.readWord().toLowerCase();
-			if (isInputWordValid(guessWord)){
-				game.recordAttempt(guessWord);
-				game.stateLetters();
-				if(game.isGuessWordIsAnswer(guessWord)){
-					gameOverByAnswered();
-					return;
-				}
-				else{
-					printer.printMessage("=====================Result of the attempt===========================" + "\n" +
-							 "guess result: " + game.showAttemptEncryptResult() + "\n" +
-							 "Remaining attempts count: " + game.getRemainingAttemptsCount() + "\n" + 
-							 "All right placed guessed letters: " + game.getRightPlacedLetters() + "\n" +
-							 "All wrong placed guessed letters: " + game.getWrongPlacedLetters() + "\n" + 
-						     "All letter that not used in secret word: " + game.getNotUsedLetters() + "\n" + 
-							 "====================================================================="
-					);
-				}
-			}
-		}
-		gameOverByAttemptsOver();
+	private void startGame() {
+		gameManager = new GameManager();
+		gameManager.startNewGame();
+		readAttempts();
 	}
 
-	private boolean isInputWordValid(String guessWord){
-		if (!Pattern.compile(lattinWordPattern).matcher(guessWord).matches()){
-			printer.printMessage(ErrorConstants.ONLY_LATTIN_LETTERS_REQUIRED);
-			return false;
+	private void readAttempts() {
+		while (!gameManager.isGameOver()) {
+			System.out.println(MessageConstants.INPUT_TEXT_REQUEST);
+			String guess = reader.readWord().toLowerCase();
+			RecordAttemptResponse attemptRecordResult = gameManager.tryRecordAttempt(guess);
+			if (attemptRecordResult.isSuccess()) {
+				handleAttemptResult(guess, attemptRecordResult.getMessage());
+			}
+			else {
+				System.out.println(attemptRecordResult.getMessage());
+			}
+			System.out.println("Attempts remaining: " + gameManager.getRemainingAttemptsCount());
 		}
-		else if (guessWord.length() < game.getHiddenWord().length()){
-			printer.printMessage(ErrorConstants.INPUT_TEXT_LENGTH_SHORTER);
-			return false;
-		}
-		else if (guessWord.length() > game.getHiddenWord().length()){
-			printer.printMessage(ErrorConstants.INPUT_TEXT_LENGTH_LONGER);
-			return false;
-		}
-		else if (!dictionaryRepository.isDictionaryContainsWord(guessWord)){
-			printer.printMessage(ErrorConstants.SEQUENCE_IS_NOT_WORD);
-			return false;
-		}
-		else{
-			return true;
-		}
+		handleGameOver();
 	}
-	
-	private void gameOverByAnswered(){
-		printer.printMessage(MessageConstants.CONGRATULATION_TEXT);
-		clearGame();
+
+	private void handleAttemptResult(String guess, String attemptResult) {
+		unusedGuessLetterStater.setGuess(guess);
+		stateGuessLetters(attemptResult);
+		printDetailedResult(attemptResult);
+	}
+
+	private void printDetailedResult(String attemptResult){
+		System.out.println("==========RESULT==========");
+		System.out.println(attemptResult);
+		printStatedLetters();
+		System.out.println("==========================");
+	}
+
+
+	public void stateGuessLetters(String attemptResult) {
+		staters.forEach(stater -> stater.state(attemptResult));
+	}
+
+	private void printStatedLetters() {
+		staters.forEach(stater -> System.out.println(
+				stater.getStateType() + ":" + stater.returnStated())
+		);
+	}
+
+	private void clearStaters() {
+		staters.forEach(GuessLetterStater::clear);
+	}
+
+	private void handleGameOver() {
+		if (gameManager.isGuessed()) {
+			System.out.println(MessageConstants.CONGRATULATION_TEXT);
+		}else {
+			System.out.println(MessageConstants.COMPASSION_TEXT);
+			System.out.println("Secret word was: " + gameManager.getHiddenWord());
+		}
+		reload();
+	}
+
+	private void reload() {
+		this.gameManager = null;
+		clearStaters();
 		loadMainMenu();
-	}
-	
-	private void gameOverByAttemptsOver(){
-		printer.printMessage(MessageConstants.COMPASSION_TEXT);
-		printer.printMessage("Secret word was: " + game.getHiddenWord());
-		clearGame();
-		loadMainMenu();
-	}
-	
-	private void clearGame(){
-		this.game = null;
 	}
 	
 }

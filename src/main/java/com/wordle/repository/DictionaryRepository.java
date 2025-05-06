@@ -2,9 +2,9 @@ package com.wordle.repository;
 
 public interface DictionaryRepository{
 	
-	void readDictionary(int wordsLength);
+	void read();
 	
-	boolean isDictionaryContainsWord(String word);
+	boolean containsWord(String word);
 	
 	String getRandomWord();
 	
