@@ -16,8 +16,8 @@ public class DictionaryRepositoryImplJson implements DictionaryRepository {
 	private String[] dictionary;
 		
 	public void read() {
-		if (dictionary == null){
-			try{
+		if (dictionary == null) {
+			try {
 				dictionary = dictionaryReader.getDictionaryWords();
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -25,15 +25,18 @@ public class DictionaryRepositoryImplJson implements DictionaryRepository {
 		}
 	}
 		
-	public boolean containsWord(String word){
+	public boolean containsWord(String word) {
+		if (dictionary == null) {
+			read();
+		}
 		return Arrays.asList(dictionary).contains(word);
 	}
 	
-	public String getRandomWord(){
-		if (dictionary.length > 0) {
-			return dictionary[new Random().nextInt(0, dictionary.length)];
+	public String getRandomWord() {
+		if (dictionary == null) {
+			read();
 		}
-		else throw new NoSuchElementException("Empty dict");
+		return dictionary[new Random().nextInt(0, dictionary.length)];
 	}
 	
 }

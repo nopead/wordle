@@ -46,4 +46,18 @@ public class Game {
 		return ALLOWED_ATTEMPTS_COUNT - attempts.size();
 	}
 
+	public RecordAttemptResponse tryRecordAttempt(String guess) {
+		if (game != null) {
+			ValidateResult result = validateGuess(guess);
+			if (result.isValid()) {
+				game.recordAttempt(guess);
+				return new RecordAttemptResponse(true, createAttemptResponse());
+			}
+			else return new RecordAttemptResponse(false, result.getValidationErrorMessage());
+		}
+		else {
+			return new RecordAttemptResponse(false, "No game is running");
+		}
+	}
+
 }
