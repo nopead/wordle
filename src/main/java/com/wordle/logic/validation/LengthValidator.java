@@ -1,6 +1,4 @@
-package com.wordle.logic;
-
-import com.wordle.logic.GuessValidator;
+package logic.validation;
 
 public abstract class LengthValidator implements GuessValidator {
 

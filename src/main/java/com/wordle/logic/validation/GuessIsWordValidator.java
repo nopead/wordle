@@ -1,8 +1,6 @@
-package com.wordle.logic;
+package logic.validation;
 
 import com.wordle.repository.DictionaryRepository;
-import com.wordle.logic.GuessValidator;
-import com.wordle.logic.GuessValidationErrorMessage;
 
 public class GuessIsWordValidator implements GuessValidator {
 

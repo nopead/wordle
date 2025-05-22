@@ -9,14 +9,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 
-import com.wordle.logic.GuessValidator;
-import com.wordle.logic.Game;
-import com.wordle.logic.LattinPatternValidator;
-import com.wordle.logic.GuessIsWordValidator;
-import com.wordle.logic.TooLongInputValidator;
-import com.wordle.logic.TooShortInputValidator;
-import logic.RecordAttemptResponse;
-import logic.ValidateResult;
+import com.wordle.logic.validator.GuessValidator;
+import com.wordle.logic.validator.LattinPatternValidator;
+import com.wordle.logic.validator.GuessIsWordValidator;
+import com.wordle.logic.validator.TooLongInputValidator;
+import com.wordle.logic.validator.TooShortInputValidator;
+import com.wordle.logic.RecordAttemptResponse;
+import com.wordle.logic.ValidateResult;
 
 public class GameManager {
 
@@ -98,26 +97,14 @@ public class GameManager {
         }
     }
 
-    public int getRemainingAttemptsCount() {
-        return Game.ALLOWED_ATTEMPTS_COUNT - game.getAttempts().size();
-    }
+   
 
-    public String getHiddenWord() {
-        return game.getHiddenWord();
-    }
 
-    public boolean isGameOver() {
-        return isAttemptsOver() || isGuessed();
-    }
 
-    public boolean isAttemptsOver() {
-       return game.getAttempts().size() >= Game.ALLOWED_ATTEMPTS_COUNT;
-    }
 
-    public boolean isGuessed() {
-        if (!game.getAttempts().isEmpty()){
-            return game.getHiddenWord().equals(game.getAttempts().getLast().getGuess());
-        } else return false;
-    }
+
+
+
+
 
 }

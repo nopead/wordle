@@ -1,13 +1,11 @@
-package logic;
+package logic.model;
 
-import java.util.Optional;
-
-public class ValidateResult {
+public class ValidateResultResponse {
 
     private boolean isValid;
     private String validationErrorMessage;
 
-    public ValidateResult(boolean isValid, String validationErrorMessage) {
+    public ValidateResultResponse(boolean isValid, String validationErrorMessage) {
         this.isValid = isValid;
         this.validationErrorMessage = validationErrorMessage;
     }

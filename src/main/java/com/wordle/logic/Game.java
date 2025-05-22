@@ -27,5 +27,23 @@ public class Game {
 	public void recordAttempt(String guess){
 		attempts.add(new Attempt(guess));
 	}
-	
+
+	public boolean isAttemptsOver() {
+		return attempts.size() >= ALLOWED_ATTEMPTS_COUNT;
+	}
+
+	public boolean isGuessed() {
+		if (attempts.isEmpty()){
+			return hiddenWord.equals(attempts.get(attempts.size() - 1).getGuess());
+		} else return false;
+	}
+
+	public boolean isGameOver() {
+		return isAttemptsOver() || isGuessed();
+	}
+
+	public int getRemainingAttemptsCount() {
+		return ALLOWED_ATTEMPTS_COUNT - attempts.size();
+	}
+
 }

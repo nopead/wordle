@@ -1,21 +1,10 @@
 package com.wordle.view;
 
-import java.awt.*;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
-import com.wordle.view.RightGuessLetterStater;
-import com.wordle.view.WrongGuessLetterStater;
-import com.wordle.view.UnusedGuessLetterStater;
-import com.wordle.view.GuessLetterStater;
-import com.wordle.view.MessageConstants;
-import com.wordle.view.ErrorMessageConstants;
-import com.wordle.view.Readable;
-import com.wordle.view.UserInputReader;
 import com.wordle.logic.GameManager;
-import logic.RecordAttemptResponse;
+import logic.model.RecordAttemptResponse;
 
 
 public class Wordle {

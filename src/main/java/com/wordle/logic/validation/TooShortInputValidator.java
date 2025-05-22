@@ -1,7 +1,4 @@
-package com.wordle.logic;
-
-import com.wordle.logic.GuessValidationErrorMessage;
-import com.wordle.logic.LengthValidator;
+package logic.validation;
 
 public class TooShortInputValidator extends LengthValidator {
 

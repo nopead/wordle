@@ -1,7 +1,6 @@
-package com.wordle.logic;
+package logic.validation;
 
 import java.util.regex.Pattern;
-import com.wordle.logic.GuessValidator;
 
 public abstract class PatternValidator implements GuessValidator {
 
