@@ -3,27 +3,25 @@ package com.wordle.repository;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.io.BufferedReader;
 import java.io.FileInputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
 import java.util.ArrayList;
 
 import com.wordle.repository.DictionaryReadable;
 
-public class JsonDictionaryReader implements DictionaryReadable{
+public class JSONDictionaryReader implements DictionaryReadable{
 
 	private final String RESOURCES_PATH = System.getProperty("user.dir") + "/src/main/resources/";
 	private final String DICTIONARY_FILENAME = "dictionaries.json";
 
-	private static JsonDictionaryReader instance;
+	private static com.wordle.repository.JSONDictionaryReader instance;
 
-	private JsonDictionaryReader() {}
+	private JSONDictionaryReader() {}
 
-	public static JsonDictionaryReader getInstance() {
+	public static JSONDictionaryReader getInstance() {
 		if (instance == null) {
-			instance = new JsonDictionaryReader();
+			instance = new com.wordle.repository.JSONDictionaryReader();
 		}
 		return instance;
 	}

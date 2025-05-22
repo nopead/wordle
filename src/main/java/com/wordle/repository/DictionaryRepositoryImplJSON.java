@@ -1,17 +1,15 @@
 package com.wordle.repository;
 
-import com.wordle.repository.DictionaryRepository;
-import com.wordle.repository.JsonDictionaryReader;
-import com.wordle.repository.DictionaryReadable;
-
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.NoSuchElementException;
 import java.util.Random;
+import com.wordle.repository.DictionaryRepository;
+import com.wordle.repository.DictionaryReadable;
+import com.wordle.repository.JSONDictionaryReader;
 
-public class DictionaryRepositoryImplJson implements DictionaryRepository {
+public class DictionaryRepositoryImplJSON implements DictionaryRepository {
 	
-	private final static DictionaryReadable dictionaryReader = JsonDictionaryReader.getInstance();
+	private final static DictionaryReadable dictionaryReader = JSONDictionaryReader.getInstance();
 
 	private String[] dictionary;
 		
