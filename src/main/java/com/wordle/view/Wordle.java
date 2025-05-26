@@ -2,36 +2,37 @@ package com.wordle.view;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import com.wordle.logic.GameManager;
-import logic.model.RecordAttemptResponse;
-
+import com.wordle.io.Printable;
+import com.wordle.io.ConsolePrinter;
+import com.wordle.io.Readable;
+import com.wordle.io.ConsoleReader;
+import com.wordle.model.RecordAttemptResponse;
+import com.wordle.view.constants.MenuMessage;
+import com.wordle.view.constants.MenuErrorMessage;
+import com.wordle.config.Config;
+import com.wordle.logic.Game;
 
 public class Wordle {
 
 	private final Readable reader;
-	private final ArrayList<GuessLetterStater> staters;
-	private final RightGuessLetterStater rightGuessLetterStater;
- 	private final WrongGuessLetterStater wrongGuessLetterStater;
-	private final UnusedGuessLetterStater unusedGuessLetterStater;
+	private final Printable printer;
+	private final Config config;
 
-	private GameManager gameManager;
+	private Game game;
 
 	public Wordle() {
-		reader = new UserInputReader();
-		rightGuessLetterStater = new RightGuessLetterStater();
-		wrongGuessLetterStater = new WrongGuessLetterStater(rightGuessLetterStater);
-		unusedGuessLetterStater = new UnusedGuessLetterStater();
-		staters = new ArrayList<>(List.of(rightGuessLetterStater, wrongGuessLetterStater, unusedGuessLetterStater));
+		reader = new ConsoleReader();
+		printer = new ConsolePrinter();
+		config = new Config();
 	}
 
 	public void run() {
-		System.out.println(MessageConstants.GREETING_TEXT);
+		printer.printMessage(MenuMessage.GREETING_TEXT);
 		loadMainMenu();
 	}
 	
 	void loadMainMenu() {
-		System.out.println(MessageConstants.MAIN_MENU_TEXT);
+		printer.printMessage(MenuMessage.MAIN_MENU_TEXT);
 		handleMainMenuUserResponse();
 	}
 	
@@ -46,7 +47,7 @@ public class Wordle {
 						break;
 					}
 					case 2: {
-						System.out.println(MessageConstants.GAME_RULES_TEXT);
+						printer.printMessage(MenuMessage.GAME_RULES_TEXT);
 						loadMainMenu();
 						break;
 					}
@@ -55,80 +56,57 @@ public class Wordle {
 						break;
 					}
 					default: {
-						System.out.println(ErrorMessageConstants.MAIN_MENU_OUT_OF_BOUNDS_EXCEPTION);
+						printer.printMessage(MenuErrorMessage.VALUE_OUT_OF_BOUNDS_EXCEPTION);
 						break;
 					}
 				}
 			} catch (NumberFormatException e){
-				System.out.println(ErrorMessageConstants.ONLY_DIGITS_REQUIRED);
+				printer.printMessage(MenuErrorMessage.ONLY_DIGITS_REQUIRED);
 			}
 		}
 		while (responce < 1 || responce > 3);
 	}
 
 	private void startGame() {
-		gameManager = new GameManager();
-		gameManager.startNewGame();
+		game = new Game(config);
 		readAttempts();
 	}
 
 	private void readAttempts() {
-		while (!gameManager.isGameOver()) {
-			System.out.println(MessageConstants.INPUT_TEXT_REQUEST);
+		while (!game.isGameOver()) {
+			printer.printMessage(MenuMessage.INPUT_TEXT_REQUEST);
 			String guess = reader.readWord().toLowerCase();
-			RecordAttemptResponse attemptRecordResult = gameManager.tryRecordAttempt(guess);
+			RecordAttemptResponse attemptRecordResult = game.recordAttempt(guess);
 			if (attemptRecordResult.isSuccess()) {
-				handleAttemptResult(guess, attemptRecordResult.getMessage());
+				String attemptResult = game.getLastAttemptResult();
+				printDetailedResult(attemptResult);
 			}
 			else {
-				System.out.println(attemptRecordResult.getMessage());
+				printer.printMessage(attemptRecordResult.getMessage());
 			}
-			System.out.println("Attempts remaining: " + gameManager.getRemainingAttemptsCount());
+			printer.printMessage("Attempts remaining: " + game.getRemainingAttemptsCount());
 		}
 		handleGameOver();
 	}
 
-	private void handleAttemptResult(String guess, String attemptResult) {
-		unusedGuessLetterStater.setGuess(guess);
-		stateGuessLetters(attemptResult);
-		printDetailedResult(attemptResult);
-	}
-
 	private void printDetailedResult(String attemptResult){
-		System.out.println("==========RESULT==========");
-		System.out.println(attemptResult);
-		printStatedLetters();
-		System.out.println("==========================");
-	}
-
-
-	public void stateGuessLetters(String attemptResult) {
-		staters.forEach(stater -> stater.state(attemptResult));
-	}
-
-	private void printStatedLetters() {
-		staters.forEach(stater -> System.out.println(
-				stater.getStateType() + ":" + stater.returnStated())
-		);
-	}
-
-	private void clearStaters() {
-		staters.forEach(GuessLetterStater::clear);
+		printer.printMessage("==========RESULT==========");
+		printer.printMessage(attemptResult);
+		printer.printMessage("==========================");
 	}
 
 	private void handleGameOver() {
-		if (gameManager.isGuessed()) {
-			System.out.println(MessageConstants.CONGRATULATION_TEXT);
+		if (game.isGuessed()) {
+			printer.printMessage(MenuMessage.CONGRATULATION_TEXT);
 		}else {
-			System.out.println(MessageConstants.COMPASSION_TEXT);
-			System.out.println("Secret word was: " + gameManager.getHiddenWord());
+			printer.printMessage(MenuMessage.COMPASSION_TEXT);
+			printer.printMessage("Secret word was: " + game.getHiddenWord());
 		}
 		reload();
 	}
 
 	private void reload() {
-		this.gameManager = null;
-		clearStaters();
+		this.game = null;
 		loadMainMenu();
 	}
 	
