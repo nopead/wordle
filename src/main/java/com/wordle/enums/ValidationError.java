@@ -1,4 +1,4 @@
-package com.wordle.logic.enums;
+package com.wordle.enums;
 
 public enum ValidationError {
 
