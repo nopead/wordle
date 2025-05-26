@@ -1,6 +1,6 @@
 package com.wordle.view.constants;
 
-public final class MessageConstants{
+public final class MenuMessage{
 	
 	public static final String MAIN_MENU_TEXT = "=====MENU=====        \n" + 
 												"Press 1 to start game.\n" + 
@@ -31,6 +31,6 @@ public final class MessageConstants{
 	
 	public static final String INPUT_TEXT_REQUEST = "Type your guess:";
 	
-	private MessageConstants() {}
+	private MenuMessage() {}
 	
 }

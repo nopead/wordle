@@ -1,4 +1,4 @@
-package view;
+package view.constants;
 
 public class GuessValidationErrorMessage {
 
