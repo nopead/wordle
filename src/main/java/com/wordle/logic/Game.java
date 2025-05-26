@@ -2,39 +2,40 @@ package com.wordle.logic;
 
 import java.util.List;
 import java.util.ArrayList;
-import com.wordle.logic.Attempt;
+import com.wordle.model.Attempt;
+import com.wordle.logic.validation.ValidationGateway;
+import com.wordle.model.RecordAttemptResponse;
+import com.wordle.model.ValidateResultResponse;
+import com.wordle.config.Config;
+import com.wordle.logic.GuessHandler;
 
 public class Game {
 
-	public static final int ALLOWED_ATTEMPTS_COUNT = 6;
-	public static final int WORDS_LENGTH = 5;
-
 	private final String hiddenWord;
+	private final int allowedAttemptsCount;
 	private final List<Attempt> attempts = new ArrayList<>();
-	
-	public Game(String wordToGuess) {
-		this.hiddenWord = wordToGuess;
+	private final ValidationGateway validationGateway;
+	private final GuessHandler guessHandler;
+
+	public Game(Config config) {
+		this.hiddenWord = config.getDictionaryRepository().getRandomWord();
+		this.validationGateway = new ValidationGateway(config);
+		this.allowedAttemptsCount = config.getAllowedAttemptsCount();
+		this.guessHandler = new GuessHandler(hiddenWord);
 	}
 
 	public String getHiddenWord() {
 		return hiddenWord;
 	}
 
-	public List<Attempt> getAttempts() {
-		return attempts;
-	}
-
-	public void recordAttempt(String guess){
-		attempts.add(new Attempt(guess));
-	}
-
 	public boolean isAttemptsOver() {
-		return attempts.size() >= ALLOWED_ATTEMPTS_COUNT;
+		return attempts.size() >= allowedAttemptsCount;
 	}
 
 	public boolean isGuessed() {
-		if (attempts.isEmpty()){
-			return hiddenWord.equals(attempts.get(attempts.size() - 1).getGuess());
+		if (!attempts.isEmpty()) {
+			String lastAttempt = attempts.get(attempts.size() - 1).getGuess();
+			return hiddenWord.equals(lastAttempt);
 		} else return false;
 	}
 
@@ -43,21 +44,21 @@ public class Game {
 	}
 
 	public int getRemainingAttemptsCount() {
-		return ALLOWED_ATTEMPTS_COUNT - attempts.size();
+		return allowedAttemptsCount - attempts.size();
 	}
 
-	public RecordAttemptResponse tryRecordAttempt(String guess) {
-		if (game != null) {
-			ValidateResult result = validateGuess(guess);
-			if (result.isValid()) {
-				game.recordAttempt(guess);
-				return new RecordAttemptResponse(true, createAttemptResponse());
-			}
-			else return new RecordAttemptResponse(false, result.getValidationErrorMessage());
+	public RecordAttemptResponse recordAttempt(String guess) {
+		ValidateResultResponse result = validationGateway.validate(guess);
+		if (result.isValid()) {
+			attempts.add(new Attempt(guess));
+			return new RecordAttemptResponse(true, "Attempt recorded successfully");
 		}
-		else {
-			return new RecordAttemptResponse(false, "No game is running");
-		}
+		return new RecordAttemptResponse(false, "Attempt recorded failed");
+	}
+
+	public String getLastAttemptResult() {
+		String lastAttempt = attempts.get(attempts.size() - 1).getGuess();
+		return guessHandler.compareWithSecret(lastAttempt);
 	}
 
 }

@@ -1,4 +1,7 @@
-package logic.validation;
+package com.wordle.logic.validation;
+
+import com.wordle.logic.validation.LengthValidator;
+import com.wordle.enums.ValidationError;
 
 public class TooShortInputValidator extends LengthValidator {
 
@@ -15,9 +18,10 @@ public class TooShortInputValidator extends LengthValidator {
     public boolean isValid(String input) {
         return input.length() >= border;
     }
+
     @Override
-    public String getErrorMessage(){
-        return GuessValidationErrorMessage.INPUT_TEXT_LENGTH_SHORTER;
+    public ValidationError getError() {
+        return ValidationError.GUESS_TOO_SHORT;
     }
 
 }

@@ -1,4 +1,7 @@
-package logic.validation;
+package com.wordle.logic.validation;
+
+import com.wordle.logic.validation.LengthValidator;
+import com.wordle.enums.ValidationError;
 
 public class TooLongInputValidator extends LengthValidator {
 
@@ -17,8 +20,8 @@ public class TooLongInputValidator extends LengthValidator {
     }
 
     @Override
-    public String getErrorMessage() {
-        return GuessValidationErrorMessage.INPUT_TEXT_LENGTH_LONGER;
+    public ValidationError getError() {
+        return ValidationError.GUESS_TOO_LONG;
     }
 
 }

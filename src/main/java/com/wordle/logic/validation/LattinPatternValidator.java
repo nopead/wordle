@@ -1,14 +1,11 @@
-package logic.validation;
+package com.wordle.logic.validation;
+
+import com.wordle.logic.validation.PatternValidator;
 
 public class LattinPatternValidator extends PatternValidator {
 
     public LattinPatternValidator() {
         pattern = "^[a-z]*";
-    }
-
-    @Override
-    public String getErrorMessage() {
-        return GuessValidationErrorMessage.ONLY_LATIN_LETTERS_REQUIRED;
     }
 
 }

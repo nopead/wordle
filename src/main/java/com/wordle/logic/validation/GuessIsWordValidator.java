@@ -1,6 +1,8 @@
-package logic.validation;
+package com.wordle.logic.validation;
 
 import com.wordle.repository.DictionaryRepository;
+import com.wordle.logic.validation.GuessValidator;
+import com.wordle.enums.ValidationError;
 
 public class GuessIsWordValidator implements GuessValidator {
 
@@ -16,7 +18,8 @@ public class GuessIsWordValidator implements GuessValidator {
     }
 
     @Override
-    public String getErrorMessage() {
-        return GuessValidationErrorMessage.SEQUENCE_IS_NOT_WORD;
+    public ValidationError getError() {
+        return ValidationError.GUESS_IS_NOT_WORD;
     }
+
 }
