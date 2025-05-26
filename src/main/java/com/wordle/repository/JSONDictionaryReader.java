@@ -26,11 +26,11 @@ public class JSONDictionaryReader implements DictionaryReadable{
 		return instance;
 	}
 
-	public String[] getDictionaryWords() throws IOException {
-		List<String> words = new ArrayList<>();
+	public List<String> getDictionaryWords() throws IOException {
+		List<String> words;
 		ObjectMapper objectMapper = new ObjectMapper();
-		words = objectMapper.readValue(new FileInputStream(RESOURCES_PATH + DICTIONARY_FILENAME), new TypeReference<ArrayList<String>>() {});
-		return words.toArray(new String[0]);
+		words = objectMapper.readValue(new FileInputStream(RESOURCES_PATH + DICTIONARY_FILENAME), new TypeReference<List<String>>() {});
+		return words;
 	}
 	
 }

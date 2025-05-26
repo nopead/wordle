@@ -3,6 +3,7 @@ package com.wordle.repository;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Random;
+import java.util.List;
 import com.wordle.repository.DictionaryRepository;
 import com.wordle.repository.DictionaryReadable;
 import com.wordle.repository.JSONDictionaryReader;
@@ -11,7 +12,7 @@ public class DictionaryRepositoryImplJSON implements DictionaryRepository {
 	
 	private final static DictionaryReadable dictionaryReader = JSONDictionaryReader.getInstance();
 
-	private String[] dictionary;
+	private List<String> dictionary;
 		
 	public void read() {
 		if (dictionary == null) {
@@ -27,14 +28,14 @@ public class DictionaryRepositoryImplJSON implements DictionaryRepository {
 		if (dictionary == null) {
 			read();
 		}
-		return Arrays.asList(dictionary).contains(word);
+		return dictionary.contains(word);
 	}
 	
 	public String getRandomWord() {
 		if (dictionary == null) {
 			read();
 		}
-		return dictionary[new Random().nextInt(0, dictionary.length)];
+		return dictionary.get(new Random().nextInt(dictionary.size()));
 	}
 	
 }

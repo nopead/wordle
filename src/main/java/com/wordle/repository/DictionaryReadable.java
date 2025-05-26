@@ -1,9 +1,10 @@
 package com.wordle.repository;
 
 import java.io.IOException;
+import java.util.List;
 
 interface DictionaryReadable{
 	
-	String[] getDictionaryWords() throws IOException;
+	List<String> getDictionaryWords() throws IOException;
 
 }
