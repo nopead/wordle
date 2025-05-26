@@ -1,4 +1,11 @@
-package io;
+package com.wordle.io;
 
-public class ConsolePrinter {
+import com.wordle.io.Printable;
+
+public class ConsolePrinter implements Printable  {
+
+    public void printMessage(String message) {
+        System.out.println(message);
+    }
+
 }

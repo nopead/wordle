@@ -1,4 +1,7 @@
-package io;
+package com.wordle.io;
 
-public interface printable {
+public interface Printable {
+
+    void printMessage(String message);
+
 }

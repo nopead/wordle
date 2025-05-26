@@ -1,12 +1,13 @@
-package io;
+package com.wordle.io;
 
 import java.util.Scanner;
+import com.wordle.io.Readable;
 
-public class UserInputReader implements Readable{
+public class ConsoleReader implements Readable{
 	
 	private final Scanner sc;
 	
-	public UserInputReader(){
+	public ConsoleReader(){
 		sc = new Scanner(System.in);
 	}
 

@@ -1,9 +1,6 @@
-package com.wordle.view;
+package com.wordle.io;
 
-import java.lang.NumberFormatException;
-import java.io.IOException;
-
-interface Readable{
+public interface Readable{
 	
 	String readWord();
 	
