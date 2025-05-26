@@ -1,6 +1,6 @@
-package com.wordle.logic.model;
+package com.wordle.model;
 
-import com.wordle.logic.enums.ValidationError;
+import com.wordle.enums.ValidationError;
 import java.util.List;
 
 public class ValidateResultResponse {

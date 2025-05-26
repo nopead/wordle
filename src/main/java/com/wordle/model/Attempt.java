@@ -1,4 +1,4 @@
-package logic.model;
+package com.wordle.model;
 
 public class Attempt{
 	
