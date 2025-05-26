@@ -1,4 +1,4 @@
-package logic.validation;
+package view;
 
 public class GuessValidationErrorMessage {
 

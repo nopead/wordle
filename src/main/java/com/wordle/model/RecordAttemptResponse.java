@@ -1,4 +1,4 @@
-package logic.model;
+package com.wordle.logic.model;
 
 public class RecordAttemptResponse {
 

@@ -1,4 +1,4 @@
-package com.wordle.view;
+package com.wordle.view.constants;
 
 public final class MessageConstants{
 	

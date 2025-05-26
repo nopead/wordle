@@ -1,9 +1,6 @@
-package com.wordle.view;
+package io;
 
-import java.io.IOException;
-import java.lang.NumberFormatException;
 import java.util.Scanner;
-import com.wordle.view.Readable;
 
 public class UserInputReader implements Readable{
 	
